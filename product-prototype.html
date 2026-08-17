@@ -41,8 +41,10 @@ body { font-family: var(--sans); color: var(--ink); background: var(--main-bg); 
 .brand .sub { font-size: 11px; color: var(--sideL-ink3); margin-top: 3px; letter-spacing: 1px; }
 .new-btn { margin: 16px; background: var(--sideL-accent); color: #fff; border: none; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; }
 .new-btn:hover { background: #24503A; }
-.side-group { padding: 4px 0 12px; }
-.side-group .g-title { font-size: 10px; color: var(--sideL-ink3); letter-spacing: 2px; margin: 12px 20px 8px; }
+.side-group { padding: 6px 0 14px; }
+.side-group + .side-group { border-top: 1px solid rgba(46,94,69,0.10); margin-top: 2px; }
+.side-group .g-title { font-size: 11px; font-weight: 700; color: var(--sideL-ink2); letter-spacing: 1px; margin: 14px 22px 8px; display: flex; align-items: center; gap: 7px; }
+.side-group .g-title::before { content: ''; width: 3px; height: 12px; border-radius: 2px; background: var(--sideL-accent); }
 .task-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; cursor: pointer; margin: 0 8px 2px; border-radius: 9px; position: relative; transition: background .15s; }
 .task-item:hover { background: rgba(46,94,69,0.06); }
 .task-item.active { background: var(--sideL-active); }
@@ -51,12 +53,15 @@ body { font-family: var(--sans); color: var(--ink); background: var(--main-bg); 
 .task-item .t-info { flex: 1; min-width: 0; }
 .task-item .t-title { font-size: 13px; color: var(--sideL-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .task-item .t-meta { font-size: 11px; color: var(--sideL-ink3); }
-.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; margin: 0 8px 2px; border-radius: 9px; cursor: pointer; font-size: 13px; color: var(--sideL-ink2); position: relative; transition: background .15s; }
-.nav-item:hover { background: rgba(46,94,69,0.06); }
-.nav-item.active { background: var(--sideL-active); color: var(--sideL-ink); }
-.nav-item.active::before { content: ''; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 2px; background: var(--sideL-accent); }
-.nav-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sideL-ink3); flex-shrink: 0; }
-.nav-item .n-cnt { font-size: 11px; color: var(--sideL-ink3); margin-left: auto; }
+.nav-item { display: flex; align-items: center; gap: 11px; padding: 7px 12px; margin: 0 10px 3px; border-radius: 10px; cursor: pointer; font-size: 13px; color: var(--sideL-ink2); position: relative; transition: background .15s, color .15s; }
+.nav-item:hover { background: rgba(46,94,69,0.07); color: var(--sideL-ink); }
+.nav-item.active { background: var(--sideL-active); color: var(--sideL-ink); font-weight: 600; }
+.nav-item.active::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 2px; background: var(--sideL-accent); }
+.nav-item .ico { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .15s; }
+.nav-item .ico svg { width: 17px; height: 17px; }
+.nav-item:hover .ico { transform: scale(1.06); }
+.nav-item .n-cnt { font-size: 10px; font-weight: 700; line-height: 1; padding: 3px 8px; border-radius: 10px; background: rgba(31,74,51,0.08); color: var(--sideL-ink3); margin-left: auto; }
+.nav-item.active .n-cnt { background: var(--sideL-accent); color: #fff; }
 
 /* ===== 中栏 ===== */
 .main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--main-bg); }
@@ -238,12 +243,12 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
     <div class="side-group"><div class="g-title">我的任务</div><div id="taskList"></div></div>
     <div class="side-group">
       <div class="g-title">知识库</div>
-      <div class="nav-item" data-view="knowledge" data-kb="policy"><span class="dot" style="background:#C0392B"></span>政策法规库<span class="n-cnt" id="cnt-policy">0</span></div>
-      <div class="nav-item" data-view="knowledge" data-kb="report"><span class="dot" style="background:#7B5EA7"></span>文献报道库<span class="n-cnt" id="cnt-report">0</span></div>
-      <div class="nav-item" data-view="knowledge" data-kb="internal"><span class="dot" style="background:#2F855A"></span>内部资料库<span class="n-cnt" id="cnt-internal">0</span></div>
+      <div class="nav-item" data-view="knowledge" data-kb="policy"><span class="ico" style="background:#FBE5E2;color:#C0392B"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2.5h5l3 3v10H5z"/><path d="M10 2.5v3h3"/><path d="M7 9h4M7 12h4"/></svg></span>政策法规库<span class="n-cnt" id="cnt-policy">0</span></div>
+      <div class="nav-item" data-view="knowledge" data-kb="report"><span class="ico" style="background:#EEE9F7;color:#7B5EA7"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3.5" width="12" height="11" rx="1.5"/><path d="M3 6.5h12"/><path d="M6 9.5h6M6 11.5h4"/></svg></span>文献报道库<span class="n-cnt" id="cnt-report">0</span></div>
+      <div class="nav-item" data-view="knowledge" data-kb="internal"><span class="ico" style="background:#E3F0E8;color:#2F855A"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="10" height="7" rx="1.5"/><path d="M6.5 8V6a2.5 2.5 0 0 1 5 0v2"/></svg></span>内部资料库<span class="n-cnt" id="cnt-internal">0</span></div>
     </div>
-    <div class="side-group"><div class="g-title">智能体</div><div class="nav-item" data-view="agents"><span class="dot"></span>5 位专家 + 文件助手<span class="n-cnt">6</span></div></div>
-    <div class="side-group"><div class="g-title">我的产出物</div><div class="nav-item" data-view="outputs"><span class="dot"></span>历史参考稿存档<span class="n-cnt" id="cnt-outputs">0</span></div></div>
+    <div class="side-group"><div class="g-title">智能体</div><div class="nav-item" data-view="agents"><span class="ico" style="background:#E4EAE6;color:#2E5E45"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6.5" r="3"/><path d="M3.5 14.5c.8-2.8 3-4.2 5.5-4.2s4.7 1.4 5.5 4.2"/></svg></span>5 位专家 + 文件助手<span class="n-cnt">6</span></div></div>
+    <div class="side-group"><div class="g-title">我的产出物</div><div class="nav-item" data-view="outputs"><span class="ico" style="background:#E3EBF7;color:#2E5FC0"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5h12v9H3z"/><path d="M7.5 5.5 8.5 4h4l1 1.5"/><path d="M3 8.5h12"/></svg></span>历史参考稿存档<span class="n-cnt" id="cnt-outputs">0</span></div></div>
   </aside>
 
   <main class="main">
