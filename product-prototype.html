@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>政务AI · 文件助手（产品原型）</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700;900&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --bg: #EEF0F3; --card: #FFFFFF;
+  --ink: #1B2430; --ink-2: #5B6472; --ink-3: #9AA1AD;
+  --navy: #1B2A4A;
+  --red: #C0392B; --red-deep: #9B2C20; --red-soft: #FBEEE9;
+  --amber: #C77B1E; --amber-soft: #FBF2E3;
+  --green: #2F855A; --green-soft: #EAF3EE;
+  --blue: #2E5FC0; --blue-soft: #EDF2FB;
+  --purple: #7B5EA7; --purple-soft: #F0EDF8;
+  --line: #E2E5EA;
+  --serif: "Noto Serif SC", "SimSun", "Songti SC", serif;
+  --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", "Consolas", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--sans); color: var(--ink); background: var(--bg); height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
+
+.app { display: flex; height: 100vh; }
+
+/* ===== 左栏 ===== */
+.sidebar-left {
+  width: 250px; flex-shrink: 0; background: #fff; border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; overflow-y: auto;
+}
+.brand { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
+.brand .logo { font-family: var(--serif); font-size: 17px; font-weight: 900; color: var(--navy); }
+.brand .logo .accent { color: var(--red); }
+.brand .sub { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+.new-btn { margin: 14px 16px; background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .2s; }
+.new-btn:hover { background: #24324F; }
+.side-group { padding: 6px 16px 14px; }
+.side-group .g-title { font-size: 11px; color: var(--ink-3); letter-spacing: 1px; margin: 10px 0 8px; }
+.task-item { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border-radius: 9px; cursor: pointer; transition: background .15s; margin-bottom: 2px; }
+.task-item:hover { background: #F4F5F7; }
+.task-item.active { background: var(--blue-soft); }
+.task-item .t-ico { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.task-item .t-info { flex: 1; min-width: 0; }
+.task-item .t-title { font-size: 13px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.task-item .t-meta { font-size: 11px; color: var(--ink-3); }
+.task-item.active .t-title { color: var(--blue); }
+.nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 12px; border-radius: 9px; cursor: pointer; font-size: 13px; color: var(--ink-2); transition: background .15s; }
+.nav-item:hover { background: #F4F5F7; }
+.nav-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); flex-shrink: 0; }
+
+/* ===== 中栏 ===== */
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--bg); }
+.main-head { display: flex; align-items: center; gap: 12px; padding: 14px 24px; background: #fff; border-bottom: 1px solid var(--line); }
+.main-head .task-title { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--navy); flex: 1; }
+.main-head .share-btn { font-size: 13px; color: var(--blue); border: 1px solid var(--blue); border-radius: 8px; padding: 5px 14px; cursor: pointer; background: #fff; }
+.conversation { flex: 1; overflow-y: auto; padding: 22px 26px; }
+.msg { max-width: 86%; margin-bottom: 18px; animation: rise .35s ease both; }
+.msg.user { margin-left: auto; }
+.msg.user .bubble { background: var(--navy); color: #fff; border-radius: 14px 14px 4px 14px; padding: 12px 16px; font-size: 14px; }
+.msg.user .m-meta { text-align: right; font-size: 11px; color: var(--ink-3); margin-top: 4px; }
+.msg.ai .bubble { background: #fff; border: 1px solid var(--line); border-radius: 4px 14px 14px 14px; padding: 16px 18px; }
+.msg.ai .m-meta { font-size: 11px; color: var(--ink-3); margin-top: 4px; }
+.ai-block { margin-bottom: 14px; }
+.ai-block:last-child { margin-bottom: 0; }
+.ai-block .b-title { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.ai-block .b-title::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+.rec-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rec-badge { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--red-deep); background: var(--red-soft); border: 1px solid rgba(192,57,43,0.25); padding: 5px 13px; border-radius: 8px; }
+.conf { font-family: var(--mono); font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
+.conf.high { background: var(--green-soft); color: var(--green); }
+.conf.mid { background: var(--amber-soft); color: var(--amber); }
+.type-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.type-tab { padding: 6px 13px; border-radius: 8px; border: 1px solid var(--line); background: #fff; cursor: pointer; font-size: 12px; color: var(--ink-2); transition: all .15s; }
+.type-tab.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.agent-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.agent-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; background: #FBFBFC; }
+.agent-chip .ac { width: 18px; height: 18px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; font-weight: 700; }
+.draft-preview { background: #FBFBFC; border: 1px dashed var(--line); border-radius: 10px; padding: 14px 16px; }
+.draft-preview .dp-title { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.draft-preview .dp-sec { font-size: 12px; color: var(--ink-2); margin-bottom: 4px; }
+.draft-preview .dp-sec em { font-style: normal; font-family: var(--mono); color: var(--red-deep); font-weight: 600; }
+.followup { padding: 0 26px 14px; }
+.followup .f-label { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; }
+.followup .f-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.f-chip { font-size: 12px; color: var(--blue); border: 1px solid rgba(46,95,192,0.3); background: #fff; border-radius: 20px; padding: 6px 14px; cursor: pointer; transition: all .15s; }
+.f-chip:hover { background: var(--blue); color: #fff; }
+.input-bar { display: flex; gap: 10px; align-items: flex-end; padding: 14px 24px; background: #fff; border-top: 1px solid var(--line); }
+.input-bar textarea { flex: 1; min-height: 44px; max-height: 120px; resize: none; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-family: var(--sans); font-size: 14px; color: var(--ink); outline: none; }
+.input-bar textarea:focus { border-color: var(--navy); }
+.send-btn { flex-shrink: 0; width: 48px; height: 48px; border-radius: 10px; background: var(--navy); color: #fff; border: none; font-size: 18px; cursor: pointer; }
+
+/* ===== 右栏 ===== */
+.sidebar-right { width: 330px; flex-shrink: 0; background: #fff; border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+.ref-head { padding: 16px 20px 12px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
+.ref-head .r-title { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--navy); }
+.ref-head .r-count { font-size: 12px; color: var(--ink-3); }
+.ref-filter { display: flex; gap: 6px; padding: 10px 20px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.f-btn { font-size: 11px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 20px; padding: 3px 11px; cursor: pointer; background: #fff; }
+.f-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+.ref-list { flex: 1; overflow-y: auto; padding: 14px 16px; }
+.ref-card { background: #FBFBFC; border: 1px solid var(--line); border-left: 3px solid var(--rc, var(--blue)); border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; animation: rise .3s ease both; }
+.ref-card .rc-head { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+.ref-card .rtype { font-size: 10px; font-weight: 600; letter-spacing: 1px; padding: 1px 7px; border-radius: 4px; color: #fff; }
+.rtype.policy { background: var(--red); } .rtype.report { background: var(--blue); } .rtype.paper { background: var(--purple); } .rtype.internal { background: var(--green); }
+.ref-card .rc-org { font-size: 11px; color: var(--ink-3); }
+.ref-card .rc-title { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.5; margin-bottom: 3px; }
+.ref-card .rc-sub { font-size: 12px; color: var(--ink-2); margin-bottom: 5px; }
+.ref-card .rc-date { font-size: 11px; color: var(--ink-3); margin-bottom: 5px; }
+.ref-card .rc-excerpt { font-size: 11px; color: var(--ink-2); line-height: 1.6; border-left: 2px solid var(--line); padding-left: 8px; margin-bottom: 6px; }
+.ref-card .rc-count { font-size: 11px; color: var(--blue); cursor: pointer; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== 移动端 ===== */
+@media (max-width: 900px) {
+  .sidebar-left { display: none; }
+  .sidebar-right { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- 左栏 -->
+  <aside class="sidebar-left">
+    <div class="brand">
+      <div class="logo">政务 AI<span class="accent"> · </span>文件助手</div>
+      <div class="sub">让决策有据可依</div>
+    </div>
+    <button class="new-btn" id="newTaskBtn">+ 新建任务</button>
+
+    <div class="side-group">
+      <div class="g-title">我的任务</div>
+      <div id="taskList"></div>
+    </div>
+
+    <div class="side-group">
+      <div class="g-title">知识库</div>
+      <div class="nav-item"><span class="dot" style="background:var(--red)"></span>政策法规库</div>
+      <div class="nav-item"><span class="dot" style="background:var(--blue)"></span>文献报道库</div>
+      <div class="nav-item"><span class="dot" style="background:var(--green)"></span>内部资料库</div>
+    </div>
+
+    <div class="side-group">
+      <div class="g-title">智能体</div>
+      <div class="nav-item"><span class="dot"></span>5 位专家 + 文件助手</div>
+    </div>
+
+    <div class="side-group">
+      <div class="g-title">我的产出物</div>
+      <div class="nav-item"><span class="dot"></span>历史参考稿存档</div>
+    </div>
+  </aside>
+
+  <!-- 中栏 -->
+  <main class="main">
+    <div class="main-head">
+      <span class="task-title" id="mainTitle">老旧小区改造行动计划</span>
+      <button class="share-btn">↗ 分享</button>
+    </div>
+    <div class="conversation" id="conversation"></div>
+    <div class="followup" id="followup"></div>
+    <div class="input-bar">
+      <textarea id="chatInput" placeholder="继续追问，或描述一个新任务…（Ctrl+Enter 发送）"></textarea>
+      <button class="send-btn" id="sendBtn">↑</button>
+    </div>
+  </main>
+
+  <!-- 右栏 -->
+  <aside class="sidebar-right">
+    <div class="ref-head">
+      <span class="r-title">参考文献</span>
+      <span class="r-count" id="refCount">0 项</span>
+    </div>
+    <div class="ref-filter" id="refFilter">
+      <button class="f-btn active" data-f="all">全部</button>
+      <button class="f-btn" data-f="policy">政策</button>
+      <button class="f-btn" data-f="report">报道</button>
+      <button class="f-btn" data-f="paper">文献</button>
+      <button class="f-btn" data-f="internal">内部</button>
+    </div>
+    <div class="ref-list" id="refList"></div>
+  </aside>
+
+</div>
+
+<script>
+var AGENTS = {
+  policy: { id:'policy', name:'政策研究员', icon:'政', color:'#C0392B', short:'政策',
+    refs:[
+      { type:'policy', org:'国务院办公厅', title:'关于全面推进城镇老旧小区改造工作的指导意见', sub:'国办发〔2020〕23号', date:'2020.07.20', excerpt:'全面推进城镇老旧小区改造，到"十四五"期末基本完成 2000 年底前建成需改造的老旧小区。', count:3 },
+      { type:'policy', org:'住建部等三部门', title:'关于进一步明确城镇老旧小区改造工作要求的通知', sub:'建办城〔2021〕25号', date:'2021.06.30', excerpt:'严禁以老旧小区改造为名违规举债、盲目铺摊子。', count:2 }
+    ] },
+  case: { id:'case', name:'案例研究员', icon:'案', color:'#7B5EA7', short:'报道',
+    refs:[
+      { type:'report', org:'《人民日报》', title:'杭州：加装电梯破解"悬空老人"难题', sub:'一线调研', date:'2024.09.12', excerpt:'全市累计加装电梯 5800 余台，惠及 12 万老年居民。', count:1 },
+      { type:'report', org:'《新华社》', title:'上海虹口成片化改造样本', sub:'城市更新观察', date:'2025.03.08', excerpt:'"成片统筹、整体更新"模式显著降低了改造成本。', count:1 }
+    ] },
+  local: { id:'local', name:'本地调研员', icon:'本', color:'#2F855A', short:'内部',
+    refs:[
+      { type:'internal', org:'区住建局', title:'老旧小区摸底台账（2026 年版）', sub:'内部资料', date:'2026.03.15', excerpt:'全区 2000 年前建成小区 68 个，涉及居民 3.2 万户。', count:2 },
+      { type:'internal', org:'区财政局', title:'2026 年财政预算安排说明', sub:'内部资料', date:'2026.01.20', excerpt:'本年度可用于老旧小区改造的财政资金约 2.7 亿元。', count:2 }
+    ] },
+  finance: { id:'finance', name:'财务研究员', icon:'财', color:'#C77B1E', short:'政策',
+    refs:[
+      { type:'policy', org:'财政部', title:'政府投资条例（国务院令第 712 号）', sub:'行政法规', date:'2019.05.05', excerpt:'政府投资应当与经济社会发展水平和财政收支状况相适应。', count:1 }
+    ] },
+  risk: { id:'risk', name:'风险分析员', icon:'险', color:'#9B2C20', short:'内部',
+    refs:[
+      { type:'internal', org:'区审计局', title:'上年度重点工程资金审计报告', sub:'内部资料', date:'2026.02.10', excerpt:'部分项目存在资金拨付滞后、结算超概算等问题。', count:1 },
+      { type:'report', org:'《财经》', title:'多地老旧小区改造"半拉子工程"调查', sub:'调查报道', date:'2025.11.03', excerpt:'资金链断裂导致多地改造项目停工、群众投诉激增。', count:1 }
+    ] }
+};
+
+var TASK_TYPES = [
+  { id:'special', name:'专项类', output:'行动方案', kw:['改造','整治','攻坚','行动','计划','建设','专项'], agents:['policy','case','local','finance','risk'], sandbox:true },
+  { id:'research', name:'调研类', output:'调研报告', kw:['调研','摸底','考察','评估','走访','现状'], agents:['local','case','risk'], sandbox:false },
+  { id:'meeting', name:'会议类', output:'会议方案', kw:['会议','开会','座谈','接待','议程'], agents:['local'], sandbox:false },
+  { id:'report', name:'汇报类', output:'汇报材料', kw:['汇报','总结','述职'], agents:['local'], sandbox:false },
+  { id:'interpret', name:'解读类', output:'解读稿', kw:['解读','转发','学习','贯彻','精神'], agents:['policy','local'], sandbox:false }
+];
+
+var DRAFT = {
+  special: { title:'老旧小区改造三年行动计划（参考稿）', secs:['一、政策依据','二、本地现状','三、目标设定','四、资金测算','五、风险提示','六、推演结论'] },
+  research: { title:'社区养老服务现状调研报告（参考稿）', secs:['一、调研背景','二、调研方式','三、现状与问题','四、分析与结论','五、对策建议'] },
+  meeting: { title:'营商环境座谈会会议方案（参考稿）', secs:['一、会议目的','二、时间地点','三、参会人员','四、议程安排','五、材料准备'] },
+  report: { title:'年度工作汇报材料（参考稿）', secs:['一、工作成效','二、主要做法','三、存在问题','四、下一步计划'] },
+  interpret: { title:'上级文件精神解读（参考稿）', secs:['一、文件背景','二、核心要点','三、本地对接','四、落实建议'] }
+};
+
+var FOLLOWUPS = {
+  special: ['把分两期改为分三期','参考杭州模式补充案例','测算引入专项债后的资金缺口'],
+  research: ['补充一份问卷调查方案','对比周边区县的做法','聚焦老年助餐问题深挖'],
+  meeting: ['补充企业代表名单建议','增加现场答疑环节','准备背景数据材料'],
+  report: ['突出三个亮点数据','补充明年工作计划','调整汇报结构'],
+  interpret: ['列出本地对接的具体差距','补充落实时间表','形成任务分解清单']
+};
+
+function typeOf(id){ for (var i=0;i<TASK_TYPES.length;i++) if(TASK_TYPES[i].id===id) return TASK_TYPES[i]; return TASK_TYPES[0]; }
+function recognize(text){
+  var best=null, bs=0;
+  for (var i=0;i<TASK_TYPES.length;i++){ var t=TASK_TYPES[i], s=0; for (var j=0;j<t.kw.length;j++) if(text.indexOf(t.kw[j])>=0) s++; if(s>bs){bs=s;best=t;} }
+  if(!best) best=TASK_TYPES[0];
+  var conf = bs>=2?94:(bs===1?86:55);
+  return { type:best.id, confidence:conf };
+}
+
+var state = { currentType:'special', currentTask:null, filter:'all', refs:[] };
+
+var tasks = [
+  { id:'t1', title:'老旧小区改造行动计划', type:'special', time:'08-17 22:30', icon:'改', color:'#C0392B',
+    messages:[
+      { role:'user', text:'省里要求我区三年内完成老旧小区改造，帮我起草一份行动计划，下周三上常委会。', time:'22:30' },
+      { role:'ai' }
+    ] },
+  { id:'t2', title:'社区养老服务调研', type:'research', time:'08-15 14:20', icon:'养', color:'#2F855A',
+    messages:[
+      { role:'user', text:'帮我调研一下社区养老服务的现状和问题。', time:'14:20' },
+      { role:'ai' }
+    ] },
+  { id:'t3', title:'营商环境座谈会', type:'meeting', time:'08-12 09:15', icon:'商', color:'#2E5FC0',
+    messages:[
+      { role:'user', text:'筹备一场营商环境座谈会，帮我出个会议方案。', time:'09:15' },
+      { role:'ai' }
+    ] }
+];
+
+function renderTaskList(){
+  var el = document.getElementById('taskList');
+  el.innerHTML = '';
+  tasks.forEach(function(t){
+    var div = document.createElement('div');
+    div.className = 'task-item' + (state.currentTask===t.id ? ' active' : '');
+    div.innerHTML = '<div class="t-ico" style="background:'+t.color+'">'+t.icon+'</div>' +
+      '<div class="t-info"><div class="t-title">'+t.title+'</div><div class="t-meta">'+typeOf(t.type).name+' · '+t.time+'</div></div>';
+    div.onclick = function(){ state.currentTask = t.id; state.currentType = t.type; renderAll(); };
+    el.appendChild(div);
+  });
+}
+
+function renderConversation(){
+  var t = tasks.find(function(x){ return x.id===state.currentTask; });
+  var el = document.getElementById('conversation');
+  el.innerHTML = '';
+  document.getElementById('mainTitle').textContent = t.title;
+  t.messages.forEach(function(m){
+    var div = document.createElement('div');
+    if (m.role==='user'){
+      div.className = 'msg user';
+      div.innerHTML = '<div class="bubble">'+m.text+'</div><div class="m-meta">李局长 · '+m.time+'</div>';
+    } else {
+      div.className = 'msg ai';
+      div.innerHTML = '<div class="bubble">'+buildAIBlocks()+'</div><div class="m-meta">AI 文件助手</div>';
+    }
+    el.appendChild(div);
+  });
+  el.scrollTop = el.scrollHeight;
+}
+
+function buildAIBlocks(){
+  var t = typeOf(state.currentType);
+  var html = '';
+  html += '<div class="ai-block"><div class="b-title">任务识别</div><div class="rec-line">' +
+    '<span class="rec-badge">'+t.name+' · '+t.output+'</span>' +
+    '<span class="conf high">置信度 94%</span></div>' +
+    '<div class="type-tabs">'+buildTabs()+'</div></div>';
+
+  html += '<div class="ai-block"><div class="b-title">专家会诊（'+t.agents.length+' 位专家）</div>' +
+    '<div class="agent-chips">'+buildAgentChips(t)+'</div></div>';
+
+  if (t.sandbox){
+    html += '<div class="ai-block"><div class="b-title">沙盘推演</div>' +
+      '<div class="draft-preview"><div class="dp-title">资金缺口率 40% · 高风险</div>' +
+      '<div class="dp-sec">建议分两期实施，优先改造 24 个成熟小区</div>' +
+      '<div class="dp-sec" style="color:#C0392B">传导链：资金断档→项目停工→居民投诉→舆情发酵</div></div></div>';
+  }
+
+  html += '<div class="ai-block"><div class="b-title">参考稿（草拟）</div>' +
+    '<div class="draft-preview"><div class="dp-title">'+DRAFT[state.currentType].title+'</div>' +
+    DRAFT[state.currentType].secs.map(function(s){ return '<div class="dp-sec">'+s+'</div>'; }).join('') +
+    '</div></div>';
+  return html;
+}
+
+function buildTabs(){
+  return TASK_TYPES.map(function(t){
+    return '<span class="type-tab'+(t.id===state.currentType?' active':'')+'" data-type="'+t.id+'">'+t.name+'</span>';
+  }).join('');
+}
+
+function buildAgentChips(t){
+  var all = t.agents.concat(['clerk']);
+  return all.map(function(aid, i){
+    var a = AGENTS[aid];
+    var label = aid==='clerk' ? '文件助手' : a.name;
+    var icon = aid==='clerk' ? '稿' : a.icon;
+    var color = aid==='clerk' ? '#2E5FC0' : a.color;
+    return '<span class="agent-chip"><span class="ac" style="background:'+color+'">'+icon+'</span>'+label+'</span>';
+  }).join('');
+}
+
+function collectRefs(){
+  var t = typeOf(state.currentType);
+  var list = [];
+  var seen = {};
+  t.agents.forEach(function(aid){
+    var a = AGENTS[aid];
+    if (a && a.refs) a.refs.forEach(function(r){
+      var key = r.title;
+      if (!seen[key]){ seen[key]=true; list.push(r); }
+    });
+  });
+  return list;
+}
+
+function renderRefs(){
+  state.refs = collectRefs();
+  document.getElementById('refCount').textContent = state.refs.length + ' 项';
+  var el = document.getElementById('refList');
+  el.innerHTML = '';
+  var filtered = state.refs.filter(function(r){ return state.filter==='all' || r.type===state.filter; });
+  filtered.forEach(function(r, i){
+    var colorMap = { policy:'#C0392B', report:'#2E5FC0', paper:'#7B5EA7', internal:'#2F855A' };
+    var typeLabel = { policy:'政策', report:'报道', paper:'文献', internal:'内部' };
+    var div = document.createElement('div');
+    div.className = 'ref-card';
+    div.style.setProperty('--rc', colorMap[r.type]);
+    div.style.animationDelay = (i*0.05)+'s';
+    div.innerHTML =
+      '<div class="rc-head"><span class="rtype '+r.type+'">'+typeLabel[r.type]+'</span><span class="rc-org">'+r.org+'</span></div>' +
+      '<div class="rc-title">'+r.title+'</div>' +
+      '<div class="rc-sub">'+r.sub+'</div>' +
+      '<div class="rc-date">'+r.date+'</div>' +
+      '<div class="rc-excerpt">'+r.excerpt+'</div>' +
+      '<div class="rc-count">引用 '+r.count+' 次 ↓</div>';
+    el.appendChild(div);
+  });
+}
+
+function renderFollowup(){
+  var f = FOLLOWUPS[state.currentType] || [];
+  var el = document.getElementById('followup');
+  if (f.length===0){ el.innerHTML=''; return; }
+  var html = '<div class="f-label">追问建议</div><div class="f-chips">';
+  f.forEach(function(txt){ html += '<span class="f-chip">'+txt+'</span>'; });
+  html += '</div>';
+  el.innerHTML = html;
+  el.querySelectorAll('.f-chip').forEach(function(chip){
+    chip.onclick = function(){
+      document.getElementById('chatInput').value = chip.textContent;
+    };
+  });
+}
+
+function renderAll(){
+  renderTaskList();
+  renderConversation();
+  renderRefs();
+  renderFollowup();
+  bindTabs();
+}
+
+function bindTabs(){
+  document.querySelectorAll('.type-tab').forEach(function(tab){
+    tab.onclick = function(){
+      state.currentType = tab.getAttribute('data-type');
+      var t = tasks.find(function(x){ return x.id===state.currentTask; });
+      if (t) t.type = state.currentType;
+      renderAll();
+    };
+  });
+}
+
+function send(){
+  var input = document.getElementById('chatInput');
+  var text = input.value.trim();
+  if (!text) return;
+  var t = tasks.find(function(x){ return x.id===state.currentTask; });
+  t.messages.push({ role:'user', text:text, time:'刚刚' });
+  t.messages.push({ role:'ai' });
+  state.currentType = recognize(text).type;
+  t.type = state.currentType;
+  input.value = '';
+  renderAll();
+}
+
+function newTask(){
+  var input = document.getElementById('chatInput');
+  input.value = '';
+  input.focus();
+  var placeholder = '描述你的任务，例如：省里要求三年完成老旧小区改造，帮我起草行动计划';
+  input.placeholder = placeholder;
+}
+
+document.getElementById('sendBtn').addEventListener('click', send);
+document.getElementById('chatInput').addEventListener('keydown', function(e){
+  if (e.key==='Enter' && (e.ctrlKey||e.metaKey)){ e.preventDefault(); send(); }
+});
+document.getElementById('newTaskBtn').addEventListener('click', newTask);
+document.querySelectorAll('#refFilter .f-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('#refFilter .f-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    state.filter = btn.getAttribute('data-f');
+    renderRefs();
+  });
+});
+
+state.currentTask = 't1';
+renderAll();
+</script>
+</body>
+</html>
