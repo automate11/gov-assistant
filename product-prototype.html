@@ -15,11 +15,11 @@
   --green: #2F855A; --green-soft: #EAF3EE;
   --blue: #2E5FC0; --blue-soft: #EDF2FB;
   --purple: #7B5EA7; --purple-soft: #F0EDF8;
+  --gold: #F2B84B;
   --line: #E2E5EA;
   --serif: "Noto Serif SC", "SimSun", "Songti SC", serif;
   --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   --mono: "JetBrains Mono", "SF Mono", "Consolas", monospace;
-  /* 三栏底色 */
   --sideL-bg: #1B2A4A;
   --main-bg: #EEF0F3;
   --sideR-bg: #F7F4EC;
@@ -28,27 +28,29 @@
 body { font-family: var(--sans); color: var(--ink); background: var(--main-bg); height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
 .app { display: flex; height: 100vh; }
 
-/* ===== 左栏（深墨蓝） ===== */
+/* ===== 左栏 ===== */
 .sidebar-left { width: 252px; flex-shrink: 0; background: var(--sideL-bg); display: flex; flex-direction: column; overflow-y: auto; }
 .brand { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
 .brand .logo { font-family: var(--serif); font-size: 18px; font-weight: 900; color: #fff; }
-.brand .logo .accent { color: #F2B84B; }
+.brand .logo .accent { color: var(--gold); }
 .brand .sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; letter-spacing: 1px; }
-.new-btn { margin: 16px; background: #F2B84B; color: var(--navy); border: none; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background .2s; }
+.new-btn { margin: 16px; background: var(--gold); color: var(--navy); border: none; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; }
 .new-btn:hover { background: #F5C869; }
 .side-group { padding: 4px 0 12px; }
 .side-group .g-title { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 2px; margin: 12px 20px 8px; }
-.task-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; cursor: pointer; margin: 0 8px 2px; border-radius: 9px; transition: background .15s; }
-.task-item:hover { background: rgba(255,255,255,0.06); }
-.task-item.active { background: rgba(46,95,192,0.35); }
+.task-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; cursor: pointer; margin: 0 8px 2px; border-radius: 9px; position: relative; transition: background .15s; }
+.task-item:hover { background: rgba(255,255,255,0.05); }
+.task-item.active { background: rgba(255,255,255,0.07); }
+.task-item.active::before { content: ''; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 2px; background: var(--gold); }
 .task-item .t-ico { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
 .task-item .t-info { flex: 1; min-width: 0; }
-.task-item .t-title { font-size: 13px; color: rgba(255,255,255,0.92); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.task-item .t-title { font-size: 13px; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .task-item .t-meta { font-size: 11px; color: rgba(255,255,255,0.4); }
 .task-item.active .t-title { color: #fff; }
-.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; margin: 0 8px 2px; border-radius: 9px; cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.72); transition: background .15s; }
-.nav-item:hover { background: rgba(255,255,255,0.06); }
-.nav-item.active { background: rgba(46,95,192,0.35); color: #fff; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; margin: 0 8px 2px; border-radius: 9px; cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.72); position: relative; transition: background .15s; }
+.nav-item:hover { background: rgba(255,255,255,0.05); }
+.nav-item.active { background: rgba(255,255,255,0.07); color: #fff; }
+.nav-item.active::before { content: ''; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 2px; background: var(--gold); }
 .nav-item .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); flex-shrink: 0; }
 .nav-item .n-cnt { font-size: 11px; color: rgba(255,255,255,0.4); margin-left: auto; }
 
@@ -59,7 +61,6 @@ body { font-family: var(--sans); color: var(--ink); background: var(--main-bg); 
 .main-head .share-btn { font-size: 13px; color: var(--blue); border: 1px solid var(--blue); border-radius: 8px; padding: 5px 14px; cursor: pointer; background: #fff; }
 .main-body { flex: 1; overflow-y: auto; padding: 22px 26px; }
 
-/* 对话 */
 .msg { max-width: 88%; margin-bottom: 18px; }
 .msg.user { margin-left: auto; }
 .msg.user .bubble { background: var(--navy); color: #fff; border-radius: 14px 14px 4px 14px; padding: 12px 16px; font-size: 14px; }
@@ -90,7 +91,7 @@ body { font-family: var(--sans); color: var(--ink); background: var(--main-bg); 
 .confirm-btn { margin-top: 14px; background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; }
 .confirm-btn:hover { background: var(--navy-2); }
 
-.expert-card { border: 1px solid var(--line); border-left: 3px solid var(--ec, var(--navy)); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; background: #FBFBFC; animation: rise .5s ease both; }
+.expert-card { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; background: #FBFBFC; animation: rise .5s ease both; }
 .expert-card .ec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .expert-card .ec-avatar { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; }
 .expert-card .ec-name { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--ink); }
@@ -100,8 +101,7 @@ body { font-family: var(--sans); color: var(--ink); background: var(--main-bg); 
 .expert-card .ec-q b { color: var(--navy); }
 .expert-card .ec-refs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .ec-ref { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; background: #fff; }
-.ec-ref .er-type { font-size: 9px; font-weight: 600; padding: 0 5px; border-radius: 3px; color: #fff; }
-.er-type.policy { background: var(--red); } .er-type.report { background: var(--blue); } .er-type.paper { background: var(--purple); } .er-type.internal { background: var(--green); }
+.ec-ref .er-dot { width: 6px; height: 6px; border-radius: 50%; }
 .expert-card .ec-judge { font-size: 13px; color: var(--ink); border-left: 3px solid var(--ec, var(--navy)); padding: 8px 12px; background: #fff; border-radius: 0 6px 6px 0; margin-bottom: 8px; }
 .expert-card .ec-judge b { color: var(--navy); }
 .expert-card .ec-output { font-size: 11px; color: var(--green); display: flex; align-items: center; gap: 5px; }
@@ -143,26 +143,43 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
 .doc-download { background: var(--navy); color: #fff; border: none; }
 .doc-copy { background: #fff; color: var(--blue); border: 1px solid var(--blue); }
 
-/* 知识库 / 智能体 / 产出物 视图 */
+/* 视图 */
 .view-wrap { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px 26px; }
 .view-title { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
 .view-desc { font-size: 13px; color: var(--ink-3); margin-bottom: 20px; }
 .kb-tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
 .kb-tab { font-size: 13px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 8px; padding: 7px 16px; cursor: pointer; background: #fff; }
 .kb-tab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
-.kb-item { display: flex; gap: 12px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 10px; background: #FBFBFC; }
-.kb-item .ki-type { flex-shrink: 0; }
+.kb-item { display: flex; gap: 14px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 10px; background: #fff; }
+.kb-item .ki-tag { flex-shrink: 0; margin-top: 2px; }
+.kb-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
+.kb-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+.kb-tag.policy { background: var(--red-soft); color: var(--red-deep); }
+.kb-tag.policy::before { background: var(--red); }
+.kb-tag.report { background: var(--blue-soft); color: var(--blue); }
+.kb-tag.report::before { background: var(--blue); }
+.kb-tag.paper { background: var(--purple-soft); color: var(--purple); }
+.kb-tag.paper::before { background: var(--purple); }
+.kb-tag.internal { background: var(--green-soft); color: var(--green); }
+.kb-tag.internal::before { background: var(--green); }
 .kb-item .ki-body { flex: 1; }
 .kb-item .ki-title { font-size: 14px; font-weight: 600; color: var(--ink); }
 .kb-item .ki-meta { font-size: 12px; color: var(--ink-3); margin-top: 3px; }
 .kb-item .ki-excerpt { font-size: 12px; color: var(--ink-2); margin-top: 6px; line-height: 1.6; }
-.agent-detail { border: 1px solid var(--line); border-left: 4px solid var(--ec, var(--navy)); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; background: #FBFBFC; }
-.agent-detail .ad-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+
+.agent-detail { border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; background: #fff; }
+.agent-detail .ad-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .agent-detail .ad-avatar { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 18px; font-weight: 700; color: #fff; }
 .agent-detail .ad-name { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--ink); }
 .agent-detail .ad-role { font-size: 12px; color: var(--ink-3); }
-.agent-detail .ad-field { font-size: 12px; color: var(--ink-2); margin-bottom: 10px; }
+.agent-detail .ad-method { margin-bottom: 12px; }
+.agent-detail .ad-method .am-label { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; }
+.agent-detail .am-steps { display: flex; flex-direction: column; gap: 6px; }
+.agent-detail .am-step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); }
+.agent-detail .am-step .am-num { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ec, var(--navy)); width: 18px; flex-shrink: 0; }
+.agent-detail .ad-field { font-size: 12.5px; color: var(--ink-2); margin-bottom: 6px; }
 .agent-detail .ad-field b { color: var(--navy); }
+
 .output-item { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 10px; background: #fff; }
 .output-item .oi-ico { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0; }
 .output-item .oi-body { flex: 1; }
@@ -182,7 +199,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
 .input-bar textarea:focus { border-color: var(--navy); }
 .send-btn { flex-shrink: 0; width: 48px; height: 48px; border-radius: 10px; background: var(--navy); color: #fff; border: none; font-size: 18px; cursor: pointer; }
 
-/* ===== 右栏（暖米） ===== */
+/* ===== 右栏 ===== */
 .sidebar-right { width: 332px; flex-shrink: 0; background: var(--sideR-bg); border-left: 1px solid #EAE4D6; display: flex; flex-direction: column; }
 .ref-head { padding: 16px 20px 12px; border-bottom: 1px solid #EAE4D6; display: flex; align-items: center; justify-content: space-between; }
 .ref-head .r-title { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--navy); }
@@ -191,16 +208,20 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
 .f-btn { font-size: 11px; color: var(--ink-2); border: 1px solid #E0D9C8; border-radius: 20px; padding: 3px 11px; cursor: pointer; background: #fff; }
 .f-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
 .ref-list { flex: 1; overflow-y: auto; padding: 14px 16px; }
-.ref-card { background: #fff; border: 1px solid #EAE4D6; border-left: 3px solid var(--rc, var(--blue)); border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; animation: rise .3s ease both; box-shadow: 0 1px 4px rgba(27,36,48,0.04); }
-.ref-card .rc-head { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
-.ref-card .rtype { font-size: 10px; font-weight: 600; letter-spacing: 1px; padding: 1px 7px; border-radius: 4px; color: #fff; }
-.rtype.policy { background: var(--red); } .rtype.report { background: var(--blue); } .rtype.paper { background: var(--purple); } .rtype.internal { background: var(--green); }
+.ref-card { background: #fff; border: 1px solid #EAE4D6; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; animation: rise .3s ease both; }
+.ref-card .rc-top { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+.ref-card .rc-num { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-3); }
+.ref-card .rc-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 4px; }
+.ref-card .rc-tag::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
+.rc-tag.policy { background: var(--red-soft); color: var(--red-deep); } .rc-tag.policy::before { background: var(--red); }
+.rc-tag.report { background: var(--blue-soft); color: var(--blue); } .rc-tag.report::before { background: var(--blue); }
+.rc-tag.paper { background: var(--purple-soft); color: var(--purple); } .rc-tag.paper::before { background: var(--purple); }
+.rc-tag.internal { background: var(--green-soft); color: var(--green); } .rc-tag.internal::before { background: var(--green); }
 .ref-card .rc-org { font-size: 11px; color: var(--ink-3); }
 .ref-card .rc-title { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.5; margin-bottom: 3px; }
-.ref-card .rc-sub { font-size: 12px; color: var(--ink-2); margin-bottom: 5px; }
-.ref-card .rc-date { font-size: 11px; color: var(--ink-3); margin-bottom: 5px; }
+.ref-card .rc-meta { font-size: 11px; color: var(--ink-3); margin-bottom: 5px; }
 .ref-card .rc-excerpt { font-size: 11px; color: var(--ink-2); line-height: 1.6; border-left: 2px solid #E5E0D3; padding-left: 8px; margin-bottom: 6px; }
-.ref-card .rc-count { font-size: 11px; color: var(--blue); cursor: pointer; }
+.ref-card .rc-foot { display: flex; justify-content: space-between; font-size: 11px; color: var(--blue); }
 
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 900px) { .sidebar-left { display: none; } .sidebar-right { display: none; } }
@@ -212,41 +233,22 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
   <aside class="sidebar-left">
     <div class="brand"><div class="logo">政务 AI<span class="accent"> · </span>文件助手</div><div class="sub">让决策有据可依</div></div>
     <button class="new-btn" id="newTaskBtn">+ 新建任务</button>
-
-    <div class="side-group">
-      <div class="g-title">我的任务</div>
-      <div id="taskList"></div>
-    </div>
-
+    <div class="side-group"><div class="g-title">我的任务</div><div id="taskList"></div></div>
     <div class="side-group">
       <div class="g-title">知识库</div>
-      <div class="nav-item" data-view="knowledge"><span class="dot" style="background:#F2B84B"></span>政策法规库<span class="n-cnt" id="cnt-policy">0</span></div>
-      <div class="nav-item" data-view="knowledge"><span class="dot" style="background:#7B5EA7"></span>文献报道库<span class="n-cnt" id="cnt-report">0</span></div>
-      <div class="nav-item" data-view="knowledge"><span class="dot" style="background:#2F855A"></span>内部资料库<span class="n-cnt" id="cnt-internal">0</span></div>
+      <div class="nav-item" data-view="knowledge" data-kb="policy"><span class="dot" style="background:#C0392B"></span>政策法规库<span class="n-cnt" id="cnt-policy">0</span></div>
+      <div class="nav-item" data-view="knowledge" data-kb="report"><span class="dot" style="background:#7B5EA7"></span>文献报道库<span class="n-cnt" id="cnt-report">0</span></div>
+      <div class="nav-item" data-view="knowledge" data-kb="internal"><span class="dot" style="background:#2F855A"></span>内部资料库<span class="n-cnt" id="cnt-internal">0</span></div>
     </div>
-
-    <div class="side-group">
-      <div class="g-title">智能体</div>
-      <div class="nav-item" data-view="agents"><span class="dot"></span>5 位专家 + 文件助手<span class="n-cnt">6</span></div>
-    </div>
-
-    <div class="side-group">
-      <div class="g-title">我的产出物</div>
-      <div class="nav-item" data-view="outputs"><span class="dot"></span>历史参考稿存档<span class="n-cnt" id="cnt-outputs">0</span></div>
-    </div>
+    <div class="side-group"><div class="g-title">智能体</div><div class="nav-item" data-view="agents"><span class="dot"></span>5 位专家 + 文件助手<span class="n-cnt">6</span></div></div>
+    <div class="side-group"><div class="g-title">我的产出物</div><div class="nav-item" data-view="outputs"><span class="dot"></span>历史参考稿存档<span class="n-cnt" id="cnt-outputs">0</span></div></div>
   </aside>
 
   <main class="main">
-    <div class="main-head">
-      <span class="task-title" id="mainTitle">对话</span>
-      <button class="share-btn" id="shareBtn" style="display:none;">↗ 分享</button>
-    </div>
+    <div class="main-head"><span class="task-title" id="mainTitle">对话</span><button class="share-btn" id="shareBtn" style="display:none;">↗ 分享</button></div>
     <div class="main-body" id="mainBody"></div>
     <div class="followup" id="followup"></div>
-    <div class="input-bar">
-      <textarea id="chatInput" placeholder="继续追问，或描述一个新任务…（Ctrl+Enter 发送）"></textarea>
-      <button class="send-btn" id="sendBtn">↑</button>
-    </div>
+    <div class="input-bar"><textarea id="chatInput" placeholder="继续追问，或描述一个新任务…（Ctrl+Enter 发送）"></textarea><button class="send-btn" id="sendBtn">↑</button></div>
   </main>
 
   <aside class="sidebar-right">
@@ -266,31 +268,38 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
 <script>
 var AGENTS = {
   policy: { id:'policy', name:'政策研究员', role:'法规专家', icon:'政', color:'#C0392B',
+    method:['检索上位政策文件','识别硬约束与软指导','判断地方裁量空间','给出合规边界建议'],
     question:'哪些是硬约束，哪些是地方裁量空间？',
     refs:[ { type:'policy', org:'国务院办公厅', title:'关于全面推进城镇老旧小区改造工作的指导意见', sub:'国办发〔2020〕23号', date:'2020.07.20', excerpt:'全面推进城镇老旧小区改造，到"十四五"期末基本完成需改造的老旧小区。' },
            { type:'policy', org:'住建部等三部门', title:'关于进一步明确城镇老旧小区改造工作要求的通知', sub:'建办城〔2021〕25号', date:'2021.06.30', excerpt:'严禁以老旧小区改造为名违规举债、盲目铺摊子。' } ],
     judge:'相关工作是"必答题"（硬约束），但范围、标准与节奏属地方裁量空间，不必一步到位。' },
   case: { id:'case', name:'案例研究员', role:'对标专家', icon:'案', color:'#7B5EA7',
+    method:['检索外地典型案例','提炼成功条件与做法','对比本地条件差异','判断经验可移植性'],
     question:'外地做法哪些能移植，哪些会水土不服？',
     refs:[ { type:'report', org:'《人民日报》', title:'杭州：加装电梯破解"悬空老人"难题', sub:'一线调研', date:'2024.09.12', excerpt:'全市累计加装电梯 5800 余台，惠及 12 万老年居民。' },
            { type:'report', org:'《新华社》', title:'上海虹口成片化改造样本', sub:'城市更新观察', date:'2025.03.08', excerpt:'"成片统筹、整体更新"模式显著降低改造成本。' },
            { type:'paper', org:'中规院', title:'城镇老旧小区改造模式比较研究', sub:'研究报告', date:'2023.05.20', excerpt:'比较了 12 个城市的改造模式，总结出三类典型路径。' } ],
     judge:'杭州依赖强财政需谨慎移植，上海成本高；成都"居民自治"可借鉴但需先培育社区治理。' },
   local: { id:'local', name:'本地调研员', role:'数据专家', icon:'本', color:'#2F855A',
+    method:['调取本地基础数据','交叉核验数据口径','识别真实约束条件','量化现状与底数'],
     question:'本地的真实约束是什么？',
     refs:[ { type:'internal', org:'区住建局', title:'老旧小区摸底台账（2026 年版）', sub:'内部资料', date:'2026.03.15', excerpt:'全区 2000 年前建成小区 68 个，涉及居民 3.2 万户。' },
            { type:'internal', org:'区财政局', title:'2026 年财政预算安排说明', sub:'内部资料', date:'2026.01.20', excerpt:'本年度可用于老旧小区改造的财政资金约 2.7 亿元。' } ],
     judge:'底数已摸清，真实约束集中在"钱"与"民意"两方面，而非政策允许与否。' },
   finance: { id:'finance', name:'财务研究员', role:'资金专家', icon:'财', color:'#C77B1E',
+    method:['测算项目总投资','比对可用资金来源','计算资金缺口','提出融资补缺方案'],
     question:'钱够不够，缺口怎么补？',
     refs:[ { type:'policy', org:'财政部', title:'政府投资条例（国务院令第 712 号）', sub:'行政法规', date:'2019.05.05', excerpt:'政府投资应当与经济社会发展水平和财政收支状况相适应。' } ],
     judge:'按目标估算总投资约 4.5 亿，财政可支配 2.7 亿，缺口 1.8 亿，需引入社会资本、专项债等补齐。' },
   risk: { id:'risk', name:'风险分析员', role:'风控专家', icon:'险', color:'#9B2C20',
+    method:['识别潜在风险点','评估风险触发条件','预判后果影响范围','分级标注应对措施'],
     question:'什么条件下会出事，后果有多严重？',
     refs:[ { type:'internal', org:'区审计局', title:'上年度重点工程资金审计报告', sub:'内部资料', date:'2026.02.10', excerpt:'部分项目存在资金拨付滞后、结算超概算等问题。' },
            { type:'report', org:'《财经》', title:'多地老旧小区改造"半拉子工程"调查', sub:'调查报道', date:'2025.11.03', excerpt:'资金链断裂导致多地改造项目停工、群众投诉激增。' } ],
     judge:'资金缺口是第一大风险，若不解决将导致项目烂尾、引发舆情发酵。' }
 };
+var CLERK = { id:'clerk', name:'文件助手', role:'公文秘书 · 整合成稿', icon:'稿', color:'#2E5FC0',
+  method:['汇总各专家研判意见','整合沙盘推演结果','套用公文格式规范','生成参考稿供审定'] };
 
 var TASK_TYPES = [
   { id:'special', name:'专项类', output:'行动方案', explain:'改造、整治、攻坚等需多部门协同、涉及资金测算的复杂任务', kw:['改造','整治','攻坚','行动','计划','建设','专项'], agents:['policy','case','local','finance','risk'], sandbox:true },
@@ -299,7 +308,6 @@ var TASK_TYPES = [
   { id:'report', name:'汇报类', output:'汇报材料', explain:'向领导或上级汇报工作成效、问题与下一步计划的任务', kw:['汇报','总结','述职'], agents:['local'], sandbox:false },
   { id:'interpret', name:'解读类', output:'解读稿', explain:'转发、学习上级文件并形成本地贯彻落实意见的任务', kw:['解读','转发','学习','贯彻','精神'], agents:['policy','local'], sandbox:false }
 ];
-
 var DRAFT = {
   special: { title:'老旧小区改造三年行动计划（参考稿）', secs:['一、政策依据','二、本地现状','三、目标设定','四、资金测算','五、风险提示','六、推演结论'] },
   research: { title:'社区养老服务现状调研报告（参考稿）', secs:['一、调研背景','二、调研方式','三、现状与问题','四、分析与结论','五、对策建议'] },
@@ -307,7 +315,6 @@ var DRAFT = {
   report: { title:'年度工作汇报材料（参考稿）', secs:['一、工作成效','二、主要做法','三、存在问题','四、下一步计划'] },
   interpret: { title:'上级文件精神解读（参考稿）', secs:['一、文件背景','二、核心要点','三、本地对接','四、落实建议'] }
 };
-
 var FOLLOWUPS = {
   special: ['把分两期改为分三期','参考杭州模式补充案例','测算引入专项债后的资金缺口'],
   research: ['补充一份问卷调查方案','对比周边区县的做法','聚焦老年助餐问题深挖'],
@@ -325,13 +332,11 @@ function recognize(text){
 }
 
 var state = { currentTask:'t1', currentType:'special', filter:'all', view:'chat', kbTab:'all' };
-
 var tasks = [
   { id:'t1', title:'老旧小区改造行动计划', type:'special', time:'08-17 22:30', icon:'改', color:'#C0392B', done:true },
   { id:'t2', title:'社区养老服务调研', type:'research', time:'08-15 14:20', icon:'养', color:'#2F855A', done:false },
   { id:'t3', title:'营商环境座谈会', type:'meeting', time:'08-12 09:15', icon:'商', color:'#2E5FC0', done:false }
 ];
-
 function currentTask(){ return tasks.find(function(x){ return x.id===state.currentTask; }); }
 
 function collectRefs(){
@@ -355,7 +360,6 @@ function renderTaskList(){
     div.onclick = function(){ state.currentTask=t.id; state.currentType=t.type; state.view='chat'; renderAll(); };
     el.appendChild(div);
   });
-  // 知识库计数
   var all = allRefs();
   document.getElementById('cnt-policy').textContent = all.filter(function(r){return r.type==='policy';}).length;
   document.getElementById('cnt-report').textContent = all.filter(function(r){return r.type==='report'||r.type==='paper';}).length;
@@ -363,51 +367,25 @@ function renderTaskList(){
   document.getElementById('cnt-outputs').textContent = tasks.filter(function(t){return t.done;}).length;
 }
 
-function renderAll(){
-  renderTaskList();
-  renderMain();
-  renderRefs();
-  renderFollowup();
-  renderNavActive();
-}
-
+function renderAll(){ renderTaskList(); renderMain(); renderRefs(); renderFollowup(); renderNavActive(); }
 function renderNavActive(){
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
-  document.querySelectorAll('.nav-item[data-view="'+state.view+'"]').forEach(function(n){ n.classList.add('active'); });
+  document.querySelectorAll('.nav-item[data-view="'+state.view+'"]').forEach(function(n){
+    if (state.view==='knowledge'){ if (n.getAttribute('data-kb')===state.kbTab || n.getAttribute('data-kb')==='all') n.classList.add('active'); }
+    else n.classList.add('active');
+  });
 }
 
-/* ===== 中栏视图 ===== */
 function renderMain(){
   var body = document.getElementById('mainBody');
   var title = document.getElementById('mainTitle');
   var shareBtn = document.getElementById('shareBtn');
   var inputBar = document.querySelector('.input-bar');
   var followup = document.getElementById('followup');
-  if (state.view === 'chat'){
-    title.textContent = currentTask().title;
-    shareBtn.style.display = 'block';
-    inputBar.style.display = 'flex';
-    followup.style.display = 'block';
-    renderConversation();
-  } else if (state.view === 'knowledge'){
-    title.textContent = '知识库';
-    shareBtn.style.display = 'none';
-    inputBar.style.display = 'none';
-    followup.style.display = 'none';
-    renderKnowledge();
-  } else if (state.view === 'agents'){
-    title.textContent = '智能体';
-    shareBtn.style.display = 'none';
-    inputBar.style.display = 'none';
-    followup.style.display = 'none';
-    renderAgents();
-  } else if (state.view === 'outputs'){
-    title.textContent = '我的产出物';
-    shareBtn.style.display = 'none';
-    inputBar.style.display = 'none';
-    followup.style.display = 'none';
-    renderOutputs();
-  }
+  if (state.view === 'chat'){ title.textContent=currentTask().title; shareBtn.style.display='block'; inputBar.style.display='flex'; followup.style.display='block'; renderConversation(); }
+  else if (state.view === 'knowledge'){ title.textContent='知识库'; shareBtn.style.display='none'; inputBar.style.display='none'; followup.style.display='none'; renderKnowledge(); }
+  else if (state.view === 'agents'){ title.textContent='智能体'; shareBtn.style.display='none'; inputBar.style.display='none'; followup.style.display='none'; renderAgents(); }
+  else if (state.view === 'outputs'){ title.textContent='我的产出物'; shareBtn.style.display='none'; inputBar.style.display='none'; followup.style.display='none'; renderOutputs(); }
 }
 
 function renderConversation(){
@@ -415,8 +393,8 @@ function renderConversation(){
   var t = currentTask();
   if (t.done){
     el.appendChild(userMsg('省里要求我区三年内完成老旧小区改造，帮我起草一份行动计划，下周三上常委会。', '22:30'));
-    el.appendChild(stepRecognize(true));
-    el.appendChild(stepExperts(true));
+    el.appendChild(stepRecognize());
+    el.appendChild(stepExperts());
     el.appendChild(stepSandbox());
     el.appendChild(stepDoc());
   } else {
@@ -425,33 +403,28 @@ function renderConversation(){
   el.scrollTop = el.scrollHeight;
 }
 function emptyHint(){
-  var div = document.createElement('div');
-  div.className = 'view-wrap';
-  div.style.textAlign = 'center';
-  div.style.color = '#9AA1AD';
-  div.style.padding = '60px 20px';
-  div.innerHTML = '<div style="font-size:15px;margin-bottom:8px;">输入一个任务，AI 将分四步完成</div><div style="font-size:13px;">识别 → 会诊 → 沙盘 → 成稿</div>';
+  var div=document.createElement('div');
+  div.className='view-wrap'; div.style.textAlign='center'; div.style.color='#9AA1AD'; div.style.padding='60px 20px';
+  div.innerHTML='<div style="font-size:15px;margin-bottom:8px;">输入一个任务，AI 将分四步完成</div><div style="font-size:13px;">识别 → 会诊 → 沙盘 → 成稿</div>';
+  return div;
+}
+function userMsg(text,time){
+  var div=document.createElement('div'); div.className='msg user';
+  div.innerHTML='<div class="bubble">'+text+'</div>'+(time?'<div class="m-meta">李局长 · '+time+'</div>':'');
+  return div;
+}
+function stepShell(no,name,status){
+  var div=document.createElement('div'); div.className='step';
+  div.innerHTML='<div class="step-head"><span class="step-no">第 '+no+' 步</span><span class="step-name">'+name+'</span><span class="step-status">'+status+'</span></div>';
   return div;
 }
 
-function userMsg(text, time){
-  var div = document.createElement('div');
-  div.className = 'msg user';
-  div.innerHTML = '<div class="bubble">'+text+'</div>' + (time ? '<div class="m-meta">李局长 · '+time+'</div>' : '');
-  return div;
-}
-function stepShell(no, name, status){
-  var div = document.createElement('div');
-  div.className = 'step';
-  div.innerHTML = '<div class="step-head"><span class="step-no">第 '+no+' 步</span><span class="step-name">'+name+'</span><span class="step-status">'+status+'</span></div>';
-  return div;
-}
-function stepRecognize(isDone){
-  var shell = stepShell('1', '任务识别', isDone ? '已完成' : '识别中…');
+function stepRecognize(){
+  var shell = stepShell('1', '任务识别', '已完成');
   var t = typeOf(state.currentType);
   var body = document.createElement('div'); body.className='step-body';
   var html = '<div class="rec-line"><span class="rec-badge">'+t.name+' · '+t.output+'</span><span class="conf high">置信度 94%</span></div>';
-  html += '<div style="font-size:12px;color:#5B6472;margin-top:10px;">以下 5 种任务类型会自动匹配不同的专家与步骤，如识别有误可在下方切换：</div>';
+  html += '<div style="font-size:12px;color:#5B6472;margin-top:10px;">可切换任务类型（自动匹配不同专家与步骤）：</div>';
   html += '<div class="type-list">';
   TASK_TYPES.forEach(function(tt){
     html += '<div class="type-option'+(tt.id===state.currentType?' active':'')+'" data-type="'+tt.id+'">' +
@@ -460,28 +433,28 @@ function stepRecognize(isDone){
       '<div class="to-explain">'+tt.explain+'</div></div></div>';
   });
   html += '</div>';
-  if (!isDone) html += '<button class="confirm-btn" id="confirmBtn">确认，开始专家会诊</button>';
   body.innerHTML = html;
   shell.appendChild(body);
-  if (!isDone){
-    setTimeout(function(){
-      body.querySelectorAll('.type-option').forEach(function(op){
-        op.onclick = function(){ state.currentType = op.getAttribute('data-type'); currentTask().type = state.currentType; renderConversation(); renderRefs(); };
-      });
-      document.getElementById('confirmBtn').onclick = startExperts;
-    }, 0);
-  }
+  bindTypeOptions(body);
   return shell;
 }
-function stepExperts(isDone){
-  var shell = stepShell('2', '专家会诊', isDone ? '已完成' : '进行中…');
+function bindTypeOptions(body){
+  body.querySelectorAll('.type-option').forEach(function(op){
+    op.onclick = function(){
+      state.currentType = op.getAttribute('data-type');
+      currentTask().type = state.currentType;
+      renderConversation(); renderRefs(); renderFollowup(); renderTaskList();
+    };
+  });
+}
+
+function stepExperts(){
+  var shell = stepShell('2', '专家会诊', '已完成');
   var body = document.createElement('div'); body.className='step-body';
   var t = typeOf(state.currentType);
   shell.appendChild(body);
-  if (isDone){
-    t.agents.forEach(function(aid){ body.appendChild(expertCard(aid, 0)); });
-    body.appendChild(doneBanner('会诊完成，共引用 '+collectRefs().length+' 项资料 → 详见右侧参考文献'));
-  }
+  t.agents.forEach(function(aid){ body.appendChild(expertCard(aid, 0)); });
+  body.appendChild(doneBanner('会诊完成，共引用 '+collectRefs().length+' 项资料 → 详见右侧参考文献'));
   return shell;
 }
 function expertCard(aid, delay){
@@ -490,15 +463,14 @@ function expertCard(aid, delay){
   div.className = 'expert-card';
   div.style.setProperty('--ec', a.color);
   div.style.animationDelay = delay+'s';
-  var typeLabel = { policy:'政策', report:'报道', paper:'文献', internal:'内部' };
+  var typeColor = { policy:'#C0392B', report:'#2E5FC0', paper:'#7B5EA7', internal:'#2F855A' };
   var refsHtml = a.refs.map(function(r){
     var shortTitle = r.title.length>14 ? r.title.slice(0,14)+'…' : r.title;
-    return '<span class="ec-ref"><span class="er-type '+r.type+'">'+typeLabel[r.type]+'</span>'+shortTitle+'</span>';
+    return '<span class="ec-ref"><span class="er-dot" style="background:'+typeColor[r.type]+'"></span>'+shortTitle+'</span>';
   }).join('');
   div.innerHTML =
     '<div class="ec-head"><div class="ec-avatar" style="background:'+a.color+'">'+a.icon+'</div>' +
-    '<div><div class="ec-name">'+a.name+'</div><div class="ec-role">'+a.role+'</div></div>' +
-    '<span class="ec-doing">正在分析…</span></div>' +
+    '<div><div class="ec-name">'+a.name+'</div><div class="ec-role">'+a.role+'</div></div></div>' +
     '<div class="ec-q"><b>分析</b>｜'+a.question+'</div>' +
     '<div class="ec-refs">'+refsHtml+'</div>' +
     '<div class="ec-judge"><b>结论</b>｜'+a.judge+'</div>' +
@@ -506,34 +478,26 @@ function expertCard(aid, delay){
   return div;
 }
 function doneBanner(text){
-  var div = document.createElement('div');
-  div.className = 'done-banner';
-  div.textContent = '✓ ' + text;
-  return div;
+  var div=document.createElement('div'); div.className='done-banner'; div.textContent='✓ '+text; return div;
 }
 function startExperts(){
   var conv = document.getElementById('mainBody');
-  var shell = stepExperts(false);
-  conv.appendChild(shell);
-  var body = shell.querySelector('.step-body');
+  var shell = stepShell('2', '专家会诊', '进行中…');
+  var body = document.createElement('div'); body.className='step-body';
+  shell.appendChild(body); conv.appendChild(shell);
   var t = typeOf(state.currentType);
-  t.agents.forEach(function(aid, i){ setTimeout(function(){ body.appendChild(expertCard(aid, 0)); }, i * 550); });
-  var totalDelay = t.agents.length * 550 + 400;
+  t.agents.forEach(function(aid, i){ setTimeout(function(){ body.appendChild(expertCard(aid, 0)); }, i*550); });
+  var totalDelay = t.agents.length*550 + 400;
   setTimeout(function(){ body.appendChild(doneBanner('会诊完成，共引用 '+collectRefs().length+' 项资料 → 详见右侧参考文献')); renderRefs(); }, totalDelay);
-  setTimeout(function(){ conv.appendChild(stepSandbox()); }, totalDelay + 500);
-  setTimeout(function(){ conv.appendChild(stepDoc()); currentTask().done = true; renderTaskList(); }, totalDelay + 900);
-  conv.scrollTop = conv.scrollHeight;
-  setTimeout(function(){ conv.scrollTop = conv.scrollHeight; }, totalDelay + 1000);
+  setTimeout(function(){ conv.appendChild(stepSandbox()); }, totalDelay+500);
+  setTimeout(function(){ conv.appendChild(stepDoc()); currentTask().done=true; renderTaskList(); }, totalDelay+900);
+  conv.scrollTop=conv.scrollHeight; setTimeout(function(){ conv.scrollTop=conv.scrollHeight; }, totalDelay+1000);
 }
 function stepSandbox(){
   var shell = stepShell('3', '数字沙盘推演', '推演中…');
   var body = document.createElement('div'); body.className='step-body';
   var t = typeOf(state.currentType);
-  if (!t.sandbox){
-    body.innerHTML = '<div style="font-size:13px;color:#5B6472;">本任务类型无需资金测算，跳过沙盘推演环节，直接生成参考稿。</div>';
-    shell.appendChild(body);
-    return shell;
-  }
+  if (!t.sandbox){ body.innerHTML='<div style="font-size:13px;color:#5B6472;">本任务类型无需资金测算，跳过沙盘推演环节，直接生成参考稿。</div>'; shell.appendChild(body); return shell; }
   body.innerHTML =
     '<div class="sandbox-grid"><div>' +
       '<div class="param"><div class="label"><span>三年改造小区数</span><span class="val" id="v-n">60 个</span></div><input type="range" id="s-n" min="20" max="80" value="60"></div>' +
@@ -560,14 +524,12 @@ function stepDoc(){
   var d = DRAFT[state.currentType];
   body.innerHTML = '<div class="doc-preview"><div class="dp-title">'+d.title+'</div>' +
     d.secs.map(function(s){ return '<div class="dp-sec"><span class="h">'+s+'</span></div>'; }).join('') +
-    '</div>' +
-    '<div style="font-size:11px;color:#9AA1AD;margin-top:10px;">AI 辅助草拟 · 供人工审定 · 非正式发文</div>' +
+    '</div><div style="font-size:11px;color:#9AA1AD;margin-top:10px;">AI 辅助草拟 · 供人工审定 · 非正式发文</div>' +
     '<div class="doc-actions"><button class="doc-download">下载 Word</button><button class="doc-copy">复制全文</button></div>';
   shell.appendChild(body);
   return shell;
 }
 
-/* ===== 沙盘 ===== */
 var COST_PER=0.075, HOUSE_PER=470;
 function fmt(x){ return Math.round(x*10)/10; }
 function runSandbox(){
@@ -588,7 +550,6 @@ function runSandbox(){
 }
 document.addEventListener('input', function(e){ if(e.target && ['s-n','s-b','s-w','s-s'].indexOf(e.target.id)>=0) runSandbox(); });
 
-/* ===== 知识库视图 ===== */
 function renderKnowledge(){
   var body = document.getElementById('mainBody');
   var all = allRefs();
@@ -597,8 +558,7 @@ function renderKnowledge(){
   var tabs = [ ['all','全部'], ['policy','政策法规'], ['report','文献报道'], ['internal','内部资料'] ];
   tabs.forEach(function(t){ html += '<span class="kb-tab'+(state.kbTab===t[0]?' active':'')+'" data-kb="'+t[0]+'">'+t[1]+'</span>'; });
   html += '</div>';
-  var typeLabel = { policy:'政策', report:'报道', paper:'文献', internal:'内部' };
-  var colorMap = { policy:'#C0392B', report:'#2E5FC0', paper:'#7B5EA7', internal:'#2F855A' };
+  var labelMap={policy:'政策',report:'报道',paper:'文献',internal:'内部'};
   var list = all.filter(function(r){
     if (state.kbTab==='all') return true;
     if (state.kbTab==='policy') return r.type==='policy';
@@ -607,74 +567,67 @@ function renderKnowledge(){
     return true;
   });
   list.forEach(function(r){
-    html += '<div class="kb-item"><div class="ki-type"><span class="rtype '+r.type+'">'+typeLabel[r.type]+'</span></div>' +
+    html += '<div class="kb-item"><div class="ki-tag"><span class="kb-tag '+r.type+'">'+labelMap[r.type]+'</span></div>' +
       '<div class="ki-body"><div class="ki-title">'+r.title+'</div>' +
       '<div class="ki-meta">'+r.org+' · '+r.sub+' · '+r.date+'</div>' +
       '<div class="ki-excerpt">'+r.excerpt+'</div></div></div>';
   });
   html += '</div>';
   body.innerHTML = html;
-  body.querySelectorAll('.kb-tab').forEach(function(tab){ tab.onclick = function(){ state.kbTab = tab.getAttribute('data-kb'); renderKnowledge(); }; });
+  body.querySelectorAll('.kb-tab').forEach(function(tab){ tab.onclick = function(){ state.kbTab=tab.getAttribute('data-kb'); renderKnowledge(); renderNavActive(); }; });
 }
 
-/* ===== 智能体视图 ===== */
 function renderAgents(){
   var body = document.getElementById('mainBody');
-  var list = Object.keys(AGENTS);
-  var html = '<div class="view-wrap"><div class="view-title">智能体</div><div class="view-desc">5 位专家智能体 + 1 位文件助手，各司其职、协同研判</div>';
-  list.forEach(function(aid){
+  var html = '<div class="view-wrap"><div class="view-title">智能体</div><div class="view-desc">每位智能体有固定的思考方法，针对具体任务调用对应数据源、输出研判意见</div>';
+  Object.keys(AGENTS).forEach(function(aid){
     var a = AGENTS[aid];
-    var isClerk = false;
-    html += '<div class="agent-detail" style="--ec:'+a.color+'">' +
-      '<div class="ad-head"><div class="ad-avatar" style="background:'+a.color+'">'+a.icon+'</div>' +
-      '<div><div class="ad-name">'+a.name+'</div><div class="ad-role">'+a.role+'</div></div></div>' +
-      '<div class="ad-field"><b>研判问题</b>：'+a.question+'</div>' +
-      '<div class="ad-field"><b>数据源</b>：'+(a.refs.map(function(r){ return r.org; }).join('、'))+'</div>' +
-      '<div class="ad-field"><b>输出</b>：研判意见</div></div>';
+    html += agentDetail(a);
   });
-  html += '<div class="agent-detail" style="--ec:#2E5FC0">' +
-    '<div class="ad-head"><div class="ad-avatar" style="background:#2E5FC0">稿</div>' +
-    '<div><div class="ad-name">文件助手</div><div class="ad-role">公文秘书 · 整合成稿</div></div></div>' +
-    '<div class="ad-field"><b>职责</b>：综合各专家研判与沙盘推演结果，按规范格式整合成参考稿</div>' +
-    '<div class="ad-field"><b>输出</b>：参考稿（供人工审定）</div></div>';
+  html += agentDetail(CLERK);
   html += '</div>';
   body.innerHTML = html;
 }
+function agentDetail(a){
+  var stepsHtml = a.method.map(function(m, i){ return '<div class="am-step"><span class="am-num">'+(i+1)+'</span>'+m+'</div>'; }).join('');
+  return '<div class="agent-detail" style="--ec:'+a.color+'">' +
+    '<div class="ad-head"><div class="ad-avatar" style="background:'+a.color+'">'+a.icon+'</div>' +
+    '<div><div class="ad-name">'+a.name+'</div><div class="ad-role">'+a.role+'</div></div></div>' +
+    '<div class="ad-method"><div class="am-label">思考过程</div><div class="am-steps">'+stepsHtml+'</div></div>' +
+    (a.refs ? '<div class="ad-field"><b>数据源</b>：'+a.refs.map(function(r){return r.org;}).join('、')+'</div>' : '') +
+    '<div class="ad-field"><b>输出</b>：'+(a.refs?'研判意见':'参考稿（供人工审定）')+'</div></div>';
+}
 
-/* ===== 产出物视图 ===== */
 function renderOutputs(){
   var body = document.getElementById('mainBody');
   var html = '<div class="view-wrap"><div class="view-title">我的产出物</div><div class="view-desc">所有历史任务的参考稿存档，可预览、下载、重新编辑</div>';
   tasks.forEach(function(t){
-    var done = t.done;
     html += '<div class="output-item"><div class="oi-ico" style="background:'+t.color+'">'+t.icon+'</div>' +
       '<div class="oi-body"><div class="oi-title">'+DRAFT[t.type].title+'</div>' +
       '<div class="oi-meta">'+typeOf(t.type).name+' · '+t.time+'</div></div>' +
-      '<span class="oi-status '+(done?'done':'wait')+'">'+(done?'已生成':'待生成')+'</span></div>';
+      '<span class="oi-status '+(t.done?'done':'wait')+'">'+(t.done?'已生成':'待生成')+'</span></div>';
   });
   html += '</div>';
   body.innerHTML = html;
 }
 
-/* ===== 参考文献（右栏） ===== */
 function renderRefs(){
   var refs = collectRefs();
   document.getElementById('refCount').textContent = refs.length+' 项';
   var el=document.getElementById('refList'); el.innerHTML='';
   var filtered = refs.filter(function(r){ return state.filter==='all'||r.type===state.filter; });
-  var colorMap={policy:'#C0392B',report:'#2E5FC0',paper:'#7B5EA7',internal:'#2F855A'};
   var labelMap={policy:'政策',report:'报道',paper:'文献',internal:'内部'};
   filtered.forEach(function(r,i){
     var div=document.createElement('div');
-    div.className='ref-card'; div.style.setProperty('--rc',colorMap[r.type]); div.style.animationDelay=(i*0.05)+'s';
-    div.innerHTML='<div class="rc-head"><span class="rtype '+r.type+'">'+labelMap[r.type]+'</span><span class="rc-org">'+r.org+'</span></div>' +
-      '<div class="rc-title">'+r.title+'</div><div class="rc-sub">'+r.sub+'</div><div class="rc-date">'+r.date+'</div>' +
-      '<div class="rc-excerpt">'+r.excerpt+'</div><div class="rc-count">引用 ↓</div>';
+    div.className='ref-card'; div.style.animationDelay=(i*0.05)+'s';
+    div.innerHTML='<div class="rc-top"><span class="rc-num">['+(i+1)+']</span><span class="rc-tag '+r.type+'">'+labelMap[r.type]+'</span><span class="rc-org">'+r.org+'</span></div>' +
+      '<div class="rc-title">'+r.title+'</div><div class="rc-meta">'+r.sub+' · '+r.date+'</div>' +
+      '<div class="rc-excerpt">'+r.excerpt+'</div>' +
+      '<div class="rc-foot"><span>查看原文</span><span>引用 →</span></div>';
     el.appendChild(div);
   });
 }
 
-/* ===== 追问 ===== */
 function renderFollowup(){
   var f=FOLLOWUPS[state.currentType]||[];
   var el=document.getElementById('followup');
@@ -685,7 +638,6 @@ function renderFollowup(){
   el.querySelectorAll('.f-chip').forEach(function(chip){ chip.onclick=function(){ document.getElementById('chatInput').value=chip.textContent; }; });
 }
 
-/* ===== 发送 & 事件 ===== */
 function send(){
   var input=document.getElementById('chatInput'); var text=input.value.trim();
   if(!text) return;
@@ -695,8 +647,13 @@ function send(){
   state.currentType = recognize(text).type;
   currentTask().type = state.currentType;
   currentTask().done = false;
-  conv.appendChild(stepRecognize(false));
-  conv.scrollTop = conv.scrollHeight;
+  var shell = stepRecognize();
+  conv.appendChild(shell);
+  var body = shell.querySelector('.step-body');
+  var btn = document.createElement('button'); btn.className='confirm-btn'; btn.textContent='确认，开始专家会诊';
+  btn.onclick = function(){ btn.remove(); startExperts(); };
+  body.appendChild(btn);
+  conv.scrollTop=conv.scrollHeight;
   renderTaskList();
 }
 function newTask(){ state.view='chat'; document.getElementById('chatInput').value=''; document.getElementById('chatInput').focus(); renderAll(); }
@@ -705,7 +662,13 @@ document.getElementById('sendBtn').addEventListener('click', send);
 document.getElementById('chatInput').addEventListener('keydown', function(e){ if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){ e.preventDefault(); send(); } });
 document.getElementById('newTaskBtn').addEventListener('click', newTask);
 document.querySelectorAll('.nav-item').forEach(function(nav){
-  nav.addEventListener('click', function(){ state.view = nav.getAttribute('data-view'); renderAll(); });
+  nav.addEventListener('click', function(){
+    state.view = nav.getAttribute('data-view');
+    var kb = nav.getAttribute('data-kb');
+    if (kb) state.kbTab = kb;
+    else if (state.view==='knowledge') state.kbTab = 'all';
+    renderAll();
+  });
 });
 document.querySelectorAll('#refFilter .f-btn').forEach(function(btn){ btn.addEventListener('click', function(){ document.querySelectorAll('#refFilter .f-btn').forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active'); state.filter=btn.getAttribute('data-f'); renderRefs(); }); });
 
