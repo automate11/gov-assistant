@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>政务AI · 文件助手</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700;900&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --bg: #EEF0F3;
+  --card: #FFFFFF;
+  --ink: #1B2430;
+  --ink-2: #5B6472;
+  --ink-3: #9AA1AD;
+  --navy: #1B2A4A;
+  --red: #C0392B;
+  --red-deep: #9B2C20;
+  --red-soft: #FBEEE9;
+  --amber: #C77B1E;
+  --amber-soft: #FBF2E3;
+  --green: #2F855A;
+  --green-soft: #EAF3EE;
+  --blue: #2E5FC0;
+  --blue-soft: #EDF2FB;
+  --line: #E2E5EA;
+  --serif: "Noto Serif SC", "SimSun", "Songti SC", serif;
+  --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", "Consolas", monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--sans); color: var(--ink); background: var(--bg);
+  line-height: 1.75; -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px 88px; }
+
+/* ===== Header ===== */
+header { padding: 44px 0 8px; }
+.topline { font-size: 12px; letter-spacing: 4px; color: var(--ink-3); margin-bottom: 14px; font-family: var(--mono); }
+h1 { font-family: var(--serif); font-size: 34px; font-weight: 900; color: var(--navy); letter-spacing: 2px; }
+h1 .accent { color: var(--red); }
+.sub { font-size: 14px; color: var(--ink-2); margin-top: 12px; max-width: 720px; }
+.sub b { color: var(--navy); }
+
+/* ===== 用户提问区 ===== */
+.query-zone { margin-top: 30px; }
+.query {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  padding: 24px 28px; box-shadow: 0 2px 8px rgba(27,36,48,0.06);
+  position: relative;
+}
+.query::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  border-radius: 16px 0 0 16px; background: var(--amber);
+}
+.query .q-label {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-3);
+  letter-spacing: 2px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.query .q-label::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--amber); }
+.query .q-row { display: flex; gap: 16px; align-items: flex-start; }
+.query .q-avatar {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--navy);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 17px; font-weight: 700; flex-shrink: 0;
+}
+.query .q-bubble {
+  flex: 1; background: #F7F8FA; border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px 20px; font-size: 15px; color: var(--ink);
+}
+.query .q-bubble .who { font-size: 12px; color: var(--ink-3); margin-bottom: 4px; }
+.query .q-bubble .txt { font-family: var(--serif); font-size: 16px; font-weight: 500; line-height: 1.8; }
+.query .q-route {
+  margin-top: 14px; font-size: 13px; color: var(--ink-2);
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.query .q-route .arrow { color: var(--amber); font-family: var(--mono); }
+.query .q-route b { color: var(--navy); }
+
+/* ===== 分区（Zone）===== */
+.zone { margin-top: 40px; background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 2px 10px rgba(27,36,48,0.05); }
+.zone-head {
+  display: flex; align-items: center; gap: 18px;
+  padding: 18px 30px; color: #fff;
+  background: var(--zc, var(--navy));
+}
+.zone-head .big-num {
+  font-family: var(--mono); font-size: 30px; font-weight: 700; opacity: 0.35; line-height: 1;
+}
+.zone-head .zt { flex: 1; }
+.zone-head .zt .en { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; opacity: 0.7; }
+.zone-head .zt h2 { font-family: var(--serif); font-size: 21px; font-weight: 700; line-height: 1.3; }
+.zone-head .zd { font-size: 13px; opacity: 0.9; text-align: right; }
+.zone-body { padding: 28px 30px; background: #fff; }
+.z-blue { --zc: var(--blue); }
+.z-navy { --zc: #24324F; }
+.z-green { --zc: var(--green); }
+
+/* ===== 专家卡 ===== */
+.experts { display: flex; flex-direction: column; gap: 16px; }
+.expert {
+  background: #FBFBFC; border: 1px solid var(--line); border-radius: 14px;
+  padding: 22px 24px; position: relative;
+  transition: box-shadow .2s ease, transform .2s ease;
+  animation: rise .45s ease both;
+}
+.expert:hover { box-shadow: 0 8px 24px rgba(27,36,48,0.09); transform: translateY(-2px); }
+.expert:nth-child(1) { animation-delay: .05s; }
+.expert:nth-child(2) { animation-delay: .12s; }
+.expert:nth-child(3) { animation-delay: .19s; }
+.expert:nth-child(4) { animation-delay: .26s; }
+.expert:nth-child(5) { animation-delay: .33s; }
+.expert::before {
+  content: ''; position: absolute; left: 0; top: 22px; bottom: 22px;
+  width: 3px; border-radius: 2px; background: var(--ec, var(--navy));
+}
+.expert:nth-child(1) { --ec: var(--red); }
+.expert:nth-child(2) { --ec: #7B5EA7; }
+.expert:nth-child(3) { --ec: var(--green); }
+.expert:nth-child(4) { --ec: var(--amber); }
+.expert:nth-child(5) { --ec: var(--red-deep); }
+
+.expert-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.avatar {
+  width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 19px; font-weight: 700; color: #fff; background: var(--ec, var(--navy)); flex-shrink: 0;
+}
+.expert-head .who { flex: 1; }
+.expert-head .name { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--navy); }
+.expert-head .name .no { font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-right: 8px; }
+.expert-head .role { font-size: 12px; color: var(--ink-2); }
+.expert-head .out {
+  font-size: 12px; color: var(--ec, var(--navy)); font-weight: 600;
+  border: 1px solid var(--ec, var(--navy)); padding: 3px 12px; border-radius: 20px; white-space: nowrap;
+}
+.expert-q { font-size: 13.5px; color: var(--ink-2); margin-bottom: 12px; }
+.expert-q b { color: var(--navy); font-weight: 600; }
+.expert-refs .refs-label { font-size: 11px; color: var(--ink-3); margin-bottom: 8px; font-family: var(--mono); letter-spacing: 1px; }
+.expert-refs .refs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.ref {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; background: #fff; line-height: 1.5;
+}
+.ref .rtype { font-size: 10px; font-weight: 600; letter-spacing: 1px; padding: 1px 6px; border-radius: 4px; flex-shrink: 0; }
+.rtype.policy { background: var(--red-soft); color: var(--red-deep); }
+.rtype.report { background: var(--blue-soft); color: var(--blue); }
+.rtype.paper { background: #F0EDF8; color: #6B4FA3; }
+.rtype.internal { background: var(--green-soft); color: var(--green); }
+.expert-judge {
+  font-size: 14px; color: var(--ink); border-left: 3px solid var(--ec, var(--navy));
+  background: #fff; padding: 12px 16px; border-radius: 0 8px 8px 0;
+}
+.expert-judge b { color: var(--navy); font-weight: 700; }
+
+/* ===== 沙盘 ===== */
+.sandbox { display: grid; grid-template-columns: 330px 1fr; gap: 20px; }
+.panel { background: #FBFBFC; border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+.panel h3 {
+  font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--navy);
+  margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--line);
+}
+.param { margin-bottom: 22px; }
+.param:last-child { margin-bottom: 0; }
+.param .label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; }
+.param .label span:first-child { font-size: 13px; color: var(--ink-2); }
+.param .val { font-family: var(--mono); font-size: 19px; font-weight: 700; color: var(--red); font-variant-numeric: tabular-nums; }
+.param .val small { font-size: 12px; font-weight: 400; color: var(--ink-3); }
+input[type=range] { -webkit-appearance: none; width: 100%; height: 5px; border-radius: 3px; background: #E2E5EA; outline: none; cursor: pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--red); border: 3px solid #fff; box-shadow: 0 1px 6px rgba(192,57,43,0.4); cursor: pointer; }
+input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--red); border: 3px solid #fff; cursor: pointer; }
+.param .hint { font-size: 11px; color: var(--ink-3); margin-top: 5px; }
+
+.metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+.metric { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.metric .k { font-size: 12px; color: var(--ink-3); margin-bottom: 5px; letter-spacing: 1px; }
+.metric .v { font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
+.metric .v small { font-size: 12px; font-weight: 400; color: var(--ink-3); }
+.metric.hot { background: var(--red-soft); border-color: rgba(192,57,43,0.25); }
+.metric.hot .k { color: var(--red); }
+.metric.hot .v { color: var(--red-deep); }
+
+.gap-bar { margin-bottom: 18px; }
+.gap-bar .bar-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-2); margin-bottom: 8px; }
+.gap-bar .bar-label b { font-family: var(--mono); color: var(--ink); }
+.gap-bar .track { height: 8px; background: #EBEDF1; border-radius: 4px; overflow: hidden; }
+.gap-bar .fill { height: 100%; border-radius: 4px; transition: width .4s cubic-bezier(.22,.8,.3,1), background .4s; }
+
+.check { border-radius: 10px; padding: 11px 16px; font-size: 13px; font-weight: 500; margin-bottom: 16px; border: 1px solid transparent; transition: all .4s; }
+.check.bad { background: var(--red-soft); color: var(--red-deep); border-color: rgba(192,57,43,0.25); }
+.check.mid { background: var(--amber-soft); color: var(--amber); border-color: rgba(199,123,30,0.25); }
+.check.ok { background: var(--green-soft); color: var(--green); border-color: rgba(47,133,90,0.25); }
+
+.verdict { border-radius: 12px; padding: 16px 18px; background: #fff; border: 1px dashed var(--line); }
+.verdict .tag { display: inline-block; font-family: var(--serif); font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 4px; margin-bottom: 10px; letter-spacing: 2px; color: #fff; }
+.tag.high { background: var(--red); }
+.tag.mid { background: var(--amber); }
+.tag.low { background: var(--green); }
+.verdict .title { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+.verdict .desc { font-size: 13px; color: var(--ink-2); }
+.chain-wrap { margin-top: 12px; }
+.chain-label { font-size: 12px; color: var(--red); margin-bottom: 8px; font-weight: 600; letter-spacing: 1px; }
+.chain { display: flex; align-items: center; flex-wrap: wrap; }
+.chain-node { font-family: var(--serif); font-size: 13px; font-weight: 600; color: var(--red-deep); background: var(--red-soft); border: 1px solid rgba(192,57,43,0.3); padding: 6px 13px; border-radius: 6px; white-space: nowrap; animation: nodeIn .45s ease both; }
+.chain-node:nth-child(1) { animation-delay: .15s; }
+.chain-node:nth-child(3) { animation-delay: .45s; }
+.chain-node:nth-child(5) { animation-delay: .75s; }
+.chain-node:nth-child(7) { animation-delay: 1.05s; }
+.chain-arrow { font-family: var(--mono); font-size: 16px; color: var(--red); padding: 0 8px; animation: arrowFlow 1.1s ease infinite; }
+.chain-arrow:nth-of-type(1) { animation-delay: 0s; }
+.chain-arrow:nth-of-type(2) { animation-delay: .3s; }
+.chain-arrow:nth-of-type(3) { animation-delay: .6s; }
+@keyframes nodeIn { from { opacity: 0; transform: scale(.5); } to { opacity: 1; transform: scale(1); } }
+@keyframes arrowFlow { 0%,100% { opacity: .3; transform: translateX(0); } 50% { opacity: 1; transform: translateX(4px); } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== 参考稿 ===== */
+.draft-note {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--green-soft); border: 1px solid rgba(47,133,90,0.25);
+  color: var(--green); border-radius: 10px; padding: 12px 16px;
+  font-size: 13px; font-weight: 500; margin-bottom: 20px;
+}
+.draft-note::before { content: 'i'; font-family: var(--mono); font-weight: 700; width: 20px; height: 20px; border-radius: 50%; background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.draft {
+  background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px;
+  padding: 44px 56px 48px; box-shadow: 0 6px 24px rgba(27,36,48,0.06);
+}
+.draft .draft-head {
+  text-align: center; margin-bottom: 26px; padding-bottom: 22px;
+  border-bottom: 2px solid var(--line);
+}
+.draft .draft-head .badge {
+  display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  color: var(--green); background: var(--green-soft); padding: 3px 12px; border-radius: 20px; margin-bottom: 12px;
+}
+.draft .draft-head h2 { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--ink); line-height: 1.6; }
+.draft .draft-head .status { font-size: 13px; color: var(--ink-3); margin-top: 6px; }
+.draft .doc-body { font-size: 15px; line-height: 2.05; color: var(--ink); }
+.draft .doc-sec { margin-bottom: 14px; position: relative; padding-right: 10px; }
+.draft .doc-sec .h { font-family: var(--serif); font-weight: 700; }
+.draft .doc-sec em { font-style: normal; font-family: var(--mono); font-weight: 600; color: var(--red-deep); padding: 0 1px; }
+.draft .doc-sec .tag-inline { display: inline-block; font-size: 12px; font-weight: 600; padding: 0 8px; border-radius: 4px; margin: 0 2px; vertical-align: 1px; }
+.draft .doc-sec .src {
+  display: inline-block; font-family: var(--mono); font-size: 10px; color: var(--ink-3);
+  border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-left: 6px; vertical-align: 1px;
+}
+.draft .footnote {
+  margin-top: 30px; padding-top: 18px; border-top: 1px dashed var(--line);
+  font-size: 12px; color: var(--ink-3); line-height: 1.9;
+}
+.draft .footnote b { color: var(--green); }
+
+@media (max-width: 860px) {
+  .wrap { padding: 0 16px 56px; }
+  header { padding: 32px 0 4px; }
+  .topline { font-size: 11px; letter-spacing: 2px; }
+  h1 { font-size: 24px; letter-spacing: 1px; }
+  .sub { font-size: 13px; }
+
+  .query { padding: 16px; }
+  .query .q-bubble { padding: 12px 14px; }
+  .query .q-bubble .txt { font-size: 14px; }
+  .query .q-route { font-size: 12px; }
+
+  .zone { margin-top: 26px; }
+  .zone-head { padding: 14px 16px; gap: 12px; flex-wrap: wrap; }
+  .zone-head .big-num { font-size: 22px; }
+  .zone-head .zt h2 { font-size: 18px; }
+  .zone-head .zd { font-size: 12px; text-align: left; width: 100%; }
+  .zone-head .zd br { display: none; }
+  .zone-body { padding: 14px; }
+
+  .expert { padding: 16px 14px; }
+  .expert-head { flex-wrap: wrap; gap: 10px; }
+  .expert-head .who { min-width: 0; }
+  .expert-head .out { margin-left: 0; }
+  .expert-q { font-size: 13px; }
+  .expert-judge { font-size: 13px; }
+  .ref { max-width: 100%; font-size: 12px; }
+
+  .sandbox { grid-template-columns: 1fr; }
+  .panel { padding: 16px; }
+  .metrics { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .metric { padding: 12px 13px; }
+  .metric .v { font-size: 20px; }
+
+  .draft { padding: 22px 16px 30px; }
+  .draft .draft-head h2 { font-size: 18px; }
+  .draft .doc-body { font-size: 14px; }
+
+  .chain-node { font-size: 12px; padding: 5px 10px; }
+  .chain-arrow { padding: 0 6px; }
+}
+
+@media (max-width: 480px) {
+  .query .q-row { flex-direction: column; }
+  .query .q-avatar { width: 38px; height: 38px; font-size: 15px; }
+  .metrics { grid-template-columns: 1fr; }
+  .zone-head .big-num { font-size: 20px; }
+  .draft .doc-sec { font-size: 13px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="topline">政 务 智 慧 办 公 · 文 件 助 手</div>
+    <h1>让决策<span class="accent">有据可依</span></h1>
+    <p class="sub">AI 定位为<b>文件助手</b>：专家智能体交叉研判、引用溯源，沙盘定量推演，最后<b>草拟参考稿</b>——正式发文仍由人来审定签发。</p>
+  </header>
+
+  <!-- 用户提问 -->
+  <div class="query-zone">
+    <div class="query">
+      <div class="q-label">用户提问</div>
+      <div class="q-row">
+        <div class="q-avatar">李</div>
+        <div class="q-bubble">
+          <div class="who">李局长 · 区人民政府</div>
+          <div class="txt">「省里要求我区三年内完成老旧小区改造，帮我起草一份行动计划，下周三要上区委常委会。」</div>
+        </div>
+      </div>
+      <div class="q-route">
+        <span>系统识别：<b>政策方案起草</b>类任务</span>
+        <span class="arrow">→</span>
+        <span>调度 <b>5 位专家智能体</b>协同研判</span>
+        <span class="arrow">→</span>
+        <span>沙盘推演</span>
+        <span class="arrow">→</span>
+        <span>草拟<b>参考稿</b>供审定</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 01 专家会诊 -->
+  <div class="zone z-blue">
+    <div class="zone-head">
+      <span class="big-num">01</span>
+      <div class="zt">
+        <div class="en">STEP 01</div>
+        <h2>专家会诊</h2>
+      </div>
+      <div class="zd">5 位专家各自输出「研判意见」<br>（附引用依据）</div>
+    </div>
+    <div class="zone-body">
+      <div class="experts">
+        <div class="expert">
+          <div class="expert-head">
+            <div class="avatar">政</div>
+            <div class="who"><div class="name"><span class="no">AGENT·01</span>政策研究员</div><div class="role">法规专家 · 政策合规研判</div></div>
+            <div class="out">输出研判意见</div>
+          </div>
+          <div class="expert-q"><b>研判问题</b>｜哪些是硬约束，哪些是地方裁量空间？</div>
+          <div class="expert-refs">
+            <div class="refs-label">参考资料（4 项）</div>
+            <div class="refs">
+              <span class="ref"><span class="rtype policy">政策</span>《国务院办公厅关于全面推进城镇老旧小区改造工作的指导意见》（国办发〔2020〕23号）</span>
+              <span class="ref"><span class="rtype policy">政策</span>住建部、国家发改委、财政部《关于进一步明确城镇老旧小区改造工作要求的通知》</span>
+              <span class="ref"><span class="rtype internal">内部</span>《XX省城镇老旧小区改造实施方案》《XX市老旧小区改造三年行动方案》</span>
+              <span class="ref"><span class="rtype paper">文献</span>《城镇老旧小区改造的法治保障研究》·《行政法学研究》2024</span>
+            </div>
+          </div>
+          <div class="expert-judge"><b>研判意见：</b>改造是"必答题"（硬约束），但范围、标准与节奏属地方裁量空间，不必一步到位，可分批、分类推进。</div>
+        </div>
+
+        <div class="expert">
+          <div class="expert-head">
+            <div class="avatar">案</div>
+            <div class="who"><div class="name"><span class="no">AGENT·02</span>案例研究员</div><div class="role">对标专家 · 经验借鉴研判</div></div>
+            <div class="out">输出研判意见</div>
+          </div>
+          <div class="expert-q"><b>研判问题</b>｜外地做法哪些能移植，哪些会水土不服？</div>
+          <div class="expert-refs">
+            <div class="refs-label">参考资料（4 项）</div>
+            <div class="refs">
+              <span class="ref"><span class="rtype report">报道</span>《人民日报》·杭州加装电梯破解"悬空老人"难题</span>
+              <span class="ref"><span class="rtype report">报道</span>《新华社》·上海虹口成片化改造样本</span>
+              <span class="ref"><span class="rtype paper">文献</span>中国城市规划设计研究院《城镇老旧小区改造模式比较研究》</span>
+              <span class="ref"><span class="rtype internal">内部</span>成都社区治理模式专题考察报告</span>
+            </div>
+          </div>
+          <div class="expert-judge"><b>研判意见：</b>杭州依赖强财政、上海改造成本高，需谨慎移植；成都"居民自治"可借鉴，但本地社区治理基础较弱，需先培育。</div>
+        </div>
+
+        <div class="expert">
+          <div class="expert-head">
+            <div class="avatar">本</div>
+            <div class="who"><div class="name"><span class="no">AGENT·03</span>本地调研员</div><div class="role">数据专家 · 本地现状摸底</div></div>
+            <div class="out">输出研判意见</div>
+          </div>
+          <div class="expert-q"><b>研判问题</b>｜本地的真实约束是什么？</div>
+          <div class="expert-refs">
+            <div class="refs-label">参考资料（4 项 · 全部来自内部系统）</div>
+            <div class="refs">
+              <span class="ref"><span class="rtype internal">内部</span>《XX区2025年统计年鉴》</span>
+              <span class="ref"><span class="rtype internal">内部</span>区住建局《老旧小区摸底台账（2026）》</span>
+              <span class="ref"><span class="rtype internal">内部</span>区财政局《2026年财政预算安排说明》</span>
+              <span class="ref"><span class="rtype internal">内部</span>12345热线《老旧小区类工单分析报告》</span>
+            </div>
+          </div>
+          <div class="expert-judge"><b>研判意见：</b>全区 2000 年前建成小区 68 个、居民 3.2 万户，改造意愿 76%；财政可支配仅 2.7 亿，真实约束是"钱"与"民意"。</div>
+        </div>
+
+        <div class="expert">
+          <div class="expert-head">
+            <div class="avatar">财</div>
+            <div class="who"><div class="name"><span class="no">AGENT·04</span>财务研究员</div><div class="role">资金专家 · 投融资测算</div></div>
+            <div class="out">输出研判意见</div>
+          </div>
+          <div class="expert-q"><b>研判问题</b>｜钱够不够，缺口怎么补？</div>
+          <div class="expert-refs">
+            <div class="refs-label">参考资料（3 项）</div>
+            <div class="refs">
+              <span class="ref"><span class="rtype policy">政策</span>财政部《政府投资条例》及配套管理办法</span>
+              <span class="ref"><span class="rtype policy">政策</span>《地方政府专项债券管理暂行办法》</span>
+              <span class="ref"><span class="rtype paper">文献</span>《社会资本参与城镇老旧小区改造的投融资模式研究》</span>
+            </div>
+          </div>
+          <div class="expert-judge"><b>研判意见：</b>按 68 个小区估算，总投资约 4.5 亿，财政可支配 2.7 亿，缺口 1.8 亿；可通过社会资本、专项债、以奖代补补齐。</div>
+        </div>
+
+        <div class="expert">
+          <div class="expert-head">
+            <div class="avatar">险</div>
+            <div class="who"><div class="name"><span class="no">AGENT·05</span>风险分析员</div><div class="role">风控专家 · 后果预判</div></div>
+            <div class="out">输出研判意见</div>
+          </div>
+          <div class="expert-q"><b>研判问题</b>｜什么条件下会出事，后果有多严重？</div>
+          <div class="expert-refs">
+            <div class="refs-label">参考资料（3 项）</div>
+            <div class="refs">
+              <span class="ref"><span class="rtype internal">内部</span>区住建局《历年改造项目投诉与纠纷台账》</span>
+              <span class="ref"><span class="rtype internal">内部</span>区审计局《上年度重点工程资金审计报告》</span>
+              <span class="ref"><span class="rtype report">报道</span>《财经》·多地老旧小区改造"半拉子工程"调查</span>
+            </div>
+          </div>
+          <div class="expert-judge"><b>研判意见：</b>资金缺口是第一大风险，若不解决，第二期将资金断档、项目烂尾，进而引发居民投诉与舆情发酵。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 02 沙盘推演 -->
+  <div class="zone z-navy">
+    <div class="zone-head">
+      <span class="big-num">02</span>
+      <div class="zt">
+        <div class="en">STEP 02</div>
+        <h2>数字沙盘推演</h2>
+      </div>
+      <div class="zd">把专家的定性研判<br>落成可量化的结果</div>
+    </div>
+    <div class="zone-body">
+      <div class="sandbox">
+        <div class="panel">
+          <h3>输入参数</h3>
+          <div class="param">
+            <div class="label"><span>三年改造小区数</span><span class="val" id="v-n">60 <small>个</small></span></div>
+            <input type="range" id="s-n" min="20" max="80" step="1" value="60">
+            <div class="hint">初稿目标 60 个，可能超出财力</div>
+          </div>
+          <div class="param">
+            <div class="label"><span>财政可支配预算</span><span class="val" id="v-b">2.7 <small>亿元</small></span></div>
+            <input type="range" id="s-b" min="1" max="5" step="0.1" value="2.7">
+            <div class="hint">本地财政实际能拿出的钱</div>
+          </div>
+          <div class="param">
+            <div class="label"><span>居民改造意愿</span><span class="val" id="v-w">76 <small>%</small></span></div>
+            <input type="range" id="s-w" min="40" max="95" step="1" value="76">
+            <div class="hint">摸底 76% 愿意，24% 可能反对</div>
+          </div>
+          <div class="param">
+            <div class="label"><span>社会资本引入比例</span><span class="val" id="v-s">0 <small>%</small></span></div>
+            <input type="range" id="s-s" min="0" max="40" step="1" value="0">
+            <div class="hint">财务研究员建议：引社会资本 + 以奖代补</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>推演结果</h3>
+          <div class="metrics">
+            <div class="metric"><div class="k">总投资</div><div class="v" id="r-cost">4.5<small> 亿</small></div></div>
+            <div class="metric hot" id="r-gap-card"><div class="k">资金缺口</div><div class="v" id="r-gap">1.8<small> 亿</small></div></div>
+            <div class="metric"><div class="k">影响人口</div><div class="v" id="r-pop">2.8<small> 万户</small></div></div>
+            <div class="metric"><div class="k">覆盖需求率</div><div class="v" id="r-cover">64<small> %</small></div></div>
+          </div>
+          <div class="gap-bar">
+            <div class="bar-label"><span>资金缺口率</span><b id="r-gaprate">40%</b></div>
+            <div class="track"><div class="fill" id="r-gapbar" style="width:40%;"></div></div>
+          </div>
+          <div class="check bad" id="r-check">检测到：目标设定与资金测算不自洽（缺口率 40%）</div>
+          <div class="verdict">
+            <span class="tag high" id="r-tag">高风险</span>
+            <div class="title" id="r-title">建议分两期实施，优先改造 24 个成熟小区</div>
+            <div class="desc" id="r-desc">资金缺口 40%，第二期 36 个小区将面临资金断档，建议压缩首期规模、分步推进。</div>
+            <div class="chain-wrap" id="r-chain-wrap">
+              <div class="chain-label">风险传导链（推演模拟）</div>
+              <div class="chain" id="r-chain"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 03 文件助手 -->
+  <div class="zone z-green">
+    <div class="zone-head">
+      <span class="big-num">03</span>
+      <div class="zt">
+        <div class="en">STEP 03</div>
+        <h2>文件助手 · 参考稿</h2>
+      </div>
+      <div class="zd">综合 5 份研判 + 推演结果<br>草拟参考稿（供人工审定）</div>
+    </div>
+    <div class="zone-body">
+      <div class="draft-note">AI 文件助手仅作辅助草拟，本稿为参考稿，供人工审阅修改；正式发文须按法定程序审定、签发。</div>
+      <div class="draft">
+        <div class="draft-head">
+          <span class="badge">AI 文件助手 · 参考稿</span>
+          <h2>老旧小区改造三年行动计划<br>（参考稿）</h2>
+          <div class="status">草拟稿 · 供人工审定，非正式发文</div>
+        </div>
+        <div class="doc-body">
+          <div class="doc-sec"><span class="h">一、政策依据。</span>根据《国务院办公厅关于全面推进城镇老旧小区改造工作的指导意见》（国办发〔2020〕23号）及省、市实施方案，结合我区实际拟定。<span class="src">AGENT-01</span></div>
+          <div class="doc-sec"><span class="h">二、本地现状。</span>全区 2000 年前建成小区 <em id="d-n">60</em> 个，涉及居民 <em id="d-pop">2.8</em> 万户，改造意愿 <em id="d-will">76%</em>。<span class="src">AGENT-03</span></div>
+          <div class="doc-sec"><span class="h">三、目标设定。</span>三年改造 <em id="d-n2">60</em> 个小区，<span id="d-phase">分两期实施</span>。<span class="src">沙盘推演</span></div>
+          <div class="doc-sec"><span class="h">四、资金测算。</span>总投资 <em id="d-cost">4.5</em> 亿元，缺口 <em id="d-gap">1.8</em> 亿元，社会资本引入 <em id="d-social">0%</em>。<span class="src">AGENT-04</span></div>
+          <div class="doc-sec"><span class="h">五、风险提示。</span><span id="d-risk-tag" class="tag-inline" style="background:var(--red);color:#fff;">高风险</span>资金缺口为最大风险，需配套资金方案。<span class="src">AGENT-05</span></div>
+          <div class="doc-sec"><span class="h">六、推演结论。</span><span id="d-conclusion">建议分两期实施，优先改造 24 个成熟小区。</span><span class="src">沙盘推演</span></div>
+        </div>
+        <div class="footnote">
+          <b>起草说明：</b>本参考稿由 AI 文件助手综合 AGENT-01 至 AGENT-05 五位专家智能体研判意见及数字沙盘推演结果自动草拟，仅供人工审阅修改，不作为正式发文依据。正式发文须经合法性审查、按程序报批，并由发文机关负责人签发。
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var COST_PER = 0.075, HOUSE_PER = 470;
+  function fmt(x){ return Math.round(x * 10) / 10; }
+  var HIGH_CHAIN = ['资金断档','项目停工','居民投诉','舆情发酵'];
+  var MID_CHAIN = ['资金偏紧','部分进度放缓'];
+  function buildChain(nodes){
+    var html = '';
+    for (var i = 0; i < nodes.length; i++){
+      html += '<span class="chain-node">' + nodes[i] + '</span>';
+      if (i < nodes.length - 1) html += '<span class="chain-arrow">→</span>';
+    }
+    return html;
+  }
+
+  function run(){
+    var n = +document.getElementById('s-n').value;
+    var b = +document.getElementById('s-b').value;
+    var w = +document.getElementById('s-w').value;
+    var s = +document.getElementById('s-s').value;
+
+    document.getElementById('v-n').innerHTML = n + ' <small>个</small>';
+    document.getElementById('v-b').innerHTML = b + ' <small>亿元</small>';
+    document.getElementById('v-w').innerHTML = w + ' <small>%</small>';
+    document.getElementById('v-s').innerHTML = s + ' <small>%</small>';
+
+    var totalCost = n * COST_PER;
+    var socialAmount = totalCost * s / 100;
+    var gap = Math.max(0, totalCost - b - socialAmount);
+    var gapRate = gap / totalCost;
+    var pop = n * HOUSE_PER / 10000;
+    var cover = Math.min(100, w * (1 - gapRate * 0.4));
+    var ratePct = Math.round(gapRate * 100);
+
+    document.getElementById('r-cost').innerHTML = fmt(totalCost) + '<small> 亿</small>';
+    document.getElementById('r-gap').innerHTML = fmt(gap) + '<small> 亿</small>';
+    document.getElementById('r-pop').innerHTML = fmt(pop) + '<small> 万户</small>';
+    document.getElementById('r-cover').innerHTML = Math.round(cover) + '<small> %</small>';
+
+    document.getElementById('r-gaprate').textContent = ratePct + '%';
+    var bar = document.getElementById('r-gapbar');
+    bar.style.width = Math.min(100, ratePct) + '%';
+
+    var check = document.getElementById('r-check');
+    var tag = document.getElementById('r-tag');
+    var title = document.getElementById('r-title');
+    var desc = document.getElementById('r-desc');
+    var gapCard = document.getElementById('r-gap-card');
+    var chainWrap = document.getElementById('r-chain-wrap');
+    var chain = document.getElementById('r-chain');
+
+    var first = Math.max(1, Math.round(n * 0.4));
+    var second = n - first;
+
+    if (gapRate > 0.30) {
+      bar.style.background = 'var(--red)';
+      check.className = 'check bad';
+      check.textContent = '检测到：目标设定与资金测算不自洽（缺口率 ' + ratePct + '%）';
+      tag.className = 'tag high'; tag.textContent = '高风险';
+      title.textContent = '建议分两期实施，优先改造 ' + first + ' 个成熟小区';
+      desc.textContent = '资金缺口 ' + ratePct + '%，第二期 ' + second + ' 个小区将面临资金断档，建议压缩首期规模、分步推进。';
+      gapCard.className = 'metric hot';
+      chainWrap.style.display = 'block';
+      chain.innerHTML = buildChain(HIGH_CHAIN);
+      setDocPhase('分两期实施', 'var(--red)', '#fff', '高风险');
+      setDocConclusion('建议分两期实施，优先改造 ' + first + ' 个成熟小区。');
+    } else if (gapRate > 0.15) {
+      bar.style.background = 'var(--amber)';
+      check.className = 'check mid';
+      check.textContent = '提示：存在资金缺口（缺口率 ' + ratePct + '%），需配套资金方案';
+      tag.className = 'tag mid'; tag.textContent = '中等风险';
+      title.textContent = '建议引入社会资本 + 以奖代补补缺口';
+      desc.textContent = '缺口 ' + fmt(gap) + ' 亿元，可通过引入社会资本、发行专项债、以奖代补等方式补齐。';
+      gapCard.className = 'metric hot';
+      chainWrap.style.display = 'block';
+      chain.innerHTML = buildChain(MID_CHAIN);
+      setDocPhase('分两期实施', 'var(--amber)', '#fff', '中等风险');
+      setDocConclusion('建议引入社会资本 + 以奖代补补缺口。');
+    } else {
+      bar.style.background = 'var(--green)';
+      check.className = 'check ok';
+      check.textContent = '目标与资金自洽，可进入决策环节';
+      tag.className = 'tag low'; tag.textContent = '低风险';
+      title.textContent = '资金自洽，可按计划推进';
+      desc.textContent = '目标、资金、民意三者自洽，方案具备上会条件。';
+      gapCard.className = 'metric';
+      chainWrap.style.display = 'none';
+      setDocPhase('按计划推进', 'var(--green)', '#fff', '低风险');
+      setDocConclusion('资金自洽，可按计划推进。');
+    }
+
+    document.getElementById('d-will').textContent = w + '%';
+    document.getElementById('d-n').textContent = n;
+    document.getElementById('d-n2').textContent = n;
+    document.getElementById('d-pop').textContent = fmt(pop);
+    document.getElementById('d-cost').textContent = fmt(totalCost);
+    document.getElementById('d-gap').textContent = fmt(gap);
+    document.getElementById('d-social').textContent = s + '%';
+  }
+
+  function setDocPhase(txt, bg, color, label){
+    document.getElementById('d-phase').textContent = txt;
+    var rt = document.getElementById('d-risk-tag');
+    rt.textContent = label;
+    rt.style.background = bg;
+    rt.style.color = color;
+  }
+  function setDocConclusion(txt){ document.getElementById('d-conclusion').textContent = txt; }
+
+  ['s-n','s-b','s-w','s-s'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', run);
+  });
+  run();
+</script>
+</body>
+</html>

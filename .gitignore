@@ -1,0 +1,10 @@
+# WorkBuddy 项目数据（本地记忆、会话等，不提交）
+.workbuddy/
+
+# 各类工具本地配置
+.claude/
+.cursor/
+.trellis/
+
+# 部署副本（源文件为 sandbox-demo.html）
+deploy/
