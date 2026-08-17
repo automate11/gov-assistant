@@ -23,23 +23,19 @@
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: var(--sans); color: var(--ink); background: var(--bg); height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
-
 .app { display: flex; height: 100vh; }
 
-/* ===== 左栏 ===== */
-.sidebar-left {
-  width: 250px; flex-shrink: 0; background: #fff; border-right: 1px solid var(--line);
-  display: flex; flex-direction: column; overflow-y: auto;
-}
+/* 左栏 */
+.sidebar-left { width: 250px; flex-shrink: 0; background: #fff; border-right: 1px solid var(--line); display: flex; flex-direction: column; overflow-y: auto; }
 .brand { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
 .brand .logo { font-family: var(--serif); font-size: 17px; font-weight: 900; color: var(--navy); }
 .brand .logo .accent { color: var(--red); }
 .brand .sub { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
-.new-btn { margin: 14px 16px; background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .2s; }
+.new-btn { margin: 14px 16px; background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 600; cursor: pointer; }
 .new-btn:hover { background: #24324F; }
 .side-group { padding: 6px 16px 14px; }
 .side-group .g-title { font-size: 11px; color: var(--ink-3); letter-spacing: 1px; margin: 10px 0 8px; }
-.task-item { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border-radius: 9px; cursor: pointer; transition: background .15s; margin-bottom: 2px; }
+.task-item { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border-radius: 9px; cursor: pointer; margin-bottom: 2px; }
 .task-item:hover { background: #F4F5F7; }
 .task-item.active { background: var(--blue-soft); }
 .task-item .t-ico { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
@@ -47,52 +43,113 @@ body { font-family: var(--sans); color: var(--ink); background: var(--bg); heigh
 .task-item .t-title { font-size: 13px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .task-item .t-meta { font-size: 11px; color: var(--ink-3); }
 .task-item.active .t-title { color: var(--blue); }
-.nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 12px; border-radius: 9px; cursor: pointer; font-size: 13px; color: var(--ink-2); transition: background .15s; }
+.nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 12px; border-radius: 9px; cursor: pointer; font-size: 13px; color: var(--ink-2); }
 .nav-item:hover { background: #F4F5F7; }
 .nav-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); flex-shrink: 0; }
 
-/* ===== 中栏 ===== */
+/* 中栏 */
 .main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--bg); }
 .main-head { display: flex; align-items: center; gap: 12px; padding: 14px 24px; background: #fff; border-bottom: 1px solid var(--line); }
 .main-head .task-title { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--navy); flex: 1; }
 .main-head .share-btn { font-size: 13px; color: var(--blue); border: 1px solid var(--blue); border-radius: 8px; padding: 5px 14px; cursor: pointer; background: #fff; }
 .conversation { flex: 1; overflow-y: auto; padding: 22px 26px; }
-.msg { max-width: 86%; margin-bottom: 18px; animation: rise .35s ease both; }
+.msg { max-width: 88%; margin-bottom: 18px; }
 .msg.user { margin-left: auto; }
 .msg.user .bubble { background: var(--navy); color: #fff; border-radius: 14px 14px 4px 14px; padding: 12px 16px; font-size: 14px; }
 .msg.user .m-meta { text-align: right; font-size: 11px; color: var(--ink-3); margin-top: 4px; }
-.msg.ai .bubble { background: #fff; border: 1px solid var(--line); border-radius: 4px 14px 14px 14px; padding: 16px 18px; }
-.msg.ai .m-meta { font-size: 11px; color: var(--ink-3); margin-top: 4px; }
-.ai-block { margin-bottom: 14px; }
-.ai-block:last-child { margin-bottom: 0; }
-.ai-block .b-title { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-.ai-block .b-title::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+
+/* 步骤块 */
+.step { max-width: 88%; margin-bottom: 18px; animation: rise .4s ease both; }
+.step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.step-head .step-no { font-family: var(--mono); font-size: 12px; font-weight: 700; color: #fff; background: var(--navy); border-radius: 6px; padding: 3px 10px; }
+.step-head .step-name { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--navy); }
+.step-head .step-status { font-size: 11px; color: var(--ink-3); }
+.step-body { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+
+/* 步骤1：识别 */
 .rec-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .rec-badge { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--red-deep); background: var(--red-soft); border: 1px solid rgba(192,57,43,0.25); padding: 5px 13px; border-radius: 8px; }
 .conf { font-family: var(--mono); font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
 .conf.high { background: var(--green-soft); color: var(--green); }
 .conf.mid { background: var(--amber-soft); color: var(--amber); }
-.type-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-.type-tab { padding: 6px 13px; border-radius: 8px; border: 1px solid var(--line); background: #fff; cursor: pointer; font-size: 12px; color: var(--ink-2); transition: all .15s; }
-.type-tab.active { background: var(--navy); border-color: var(--navy); color: #fff; }
-.agent-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.agent-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; background: #FBFBFC; }
-.agent-chip .ac { width: 18px; height: 18px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; font-weight: 700; }
-.draft-preview { background: #FBFBFC; border: 1px dashed var(--line); border-radius: 10px; padding: 14px 16px; }
-.draft-preview .dp-title { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-.draft-preview .dp-sec { font-size: 12px; color: var(--ink-2); margin-bottom: 4px; }
-.draft-preview .dp-sec em { font-style: normal; font-family: var(--mono); color: var(--red-deep); font-weight: 600; }
+.type-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.type-option { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; transition: all .15s; }
+.type-option:hover { border-color: var(--navy); }
+.type-option.active { border-color: var(--navy); background: #F7F9FC; }
+.type-option .to-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--ink-3); flex-shrink: 0; margin-top: 2px; position: relative; }
+.type-option.active .to-radio { border-color: var(--navy); }
+.type-option.active .to-radio::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--navy); }
+.type-option .to-name { font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.type-option .to-output { font-size: 11px; color: var(--blue); white-space: nowrap; }
+.type-option .to-explain { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+.confirm-btn { margin-top: 14px; background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.confirm-btn:hover { background: #24324F; }
+
+/* 步骤2：会诊 */
+.expert-card { border: 1px solid var(--line); border-left: 3px solid var(--ec, var(--navy)); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; background: #FBFBFC; animation: rise .5s ease both; }
+.expert-card .ec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.expert-card .ec-avatar { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.expert-card .ec-name { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--ink); }
+.expert-card .ec-role { font-size: 11px; color: var(--ink-3); }
+.expert-card .ec-doing { font-size: 11px; color: var(--blue); margin-left: auto; white-space: nowrap; }
+.expert-card .ec-q { font-size: 12.5px; color: var(--ink-2); margin-bottom: 8px; }
+.expert-card .ec-q b { color: var(--navy); }
+.expert-card .ec-refs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.ec-ref { font-size: 11px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; background: #fff; }
+.expert-card .ec-judge { font-size: 13px; color: var(--ink); border-left: 3px solid var(--ec, var(--navy)); padding: 8px 12px; background: #fff; border-radius: 0 6px 6px 0; margin-bottom: 8px; }
+.expert-card .ec-judge b { color: var(--navy); }
+.expert-card .ec-output { font-size: 11px; color: var(--green); display: flex; align-items: center; gap: 5px; }
+.expert-card .ec-output::before { content: '✓'; font-weight: 700; }
+.done-banner { font-size: 13px; color: var(--green); background: var(--green-soft); border-radius: 8px; padding: 10px 14px; margin-top: 4px; }
+
+/* 步骤3：沙盘 */
+.sandbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.param { margin-bottom: 16px; }
+.param .label { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-2); margin-bottom: 6px; }
+.param .val { font-family: var(--mono); font-size: 16px; font-weight: 700; color: var(--red); }
+input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; border-radius: 2px; background: #E2E5EA; outline: none; cursor: pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--red); border: 3px solid #fff; box-shadow: 0 1px 5px rgba(192,57,43,0.4); cursor: pointer; }
+.metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.metric { background: #F8F9FB; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.metric .k { font-size: 11px; color: var(--ink-3); margin-bottom: 4px; }
+.metric .v { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--navy); }
+.metric .v small { font-size: 11px; color: var(--ink-3); }
+.metric.hot { background: var(--red-soft); }
+.metric.hot .v { color: var(--red-deep); }
+.gap-bar { margin-bottom: 12px; }
+.gap-bar .bl { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-2); margin-bottom: 6px; }
+.gap-bar .track { height: 6px; background: #EBEDF1; border-radius: 3px; overflow: hidden; }
+.gap-bar .fill { height: 100%; border-radius: 3px; transition: width .4s; }
+.verdict { background: #FBFBFC; border: 1px dashed var(--line); border-radius: 10px; padding: 12px 14px; }
+.verdict .tag { display: inline-block; font-family: var(--serif); font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 4px; color: #fff; margin-bottom: 8px; }
+.tag.high { background: var(--red); } .tag.mid { background: var(--amber); } .tag.low { background: var(--green); }
+.verdict .v-title { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.verdict .v-desc { font-size: 12px; color: var(--ink-2); }
+.chain { display: flex; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.chain-node { font-size: 11px; font-weight: 600; color: var(--red-deep); background: var(--red-soft); border: 1px solid rgba(192,57,43,0.3); padding: 3px 10px; border-radius: 5px; }
+.chain-arrow { font-family: var(--mono); font-size: 13px; color: var(--red); padding: 0 6px; }
+
+/* 步骤4：文档 */
+.doc-preview { background: #FBFBFC; border: 1px dashed var(--line); border-radius: 10px; padding: 16px 18px; }
+.doc-preview .dp-title { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--ink); text-align: center; margin-bottom: 12px; }
+.doc-preview .dp-sec { font-size: 12.5px; color: var(--ink-2); margin-bottom: 6px; }
+.doc-preview .dp-sec .h { font-family: var(--serif); font-weight: 700; color: var(--ink); }
+.doc-actions { display: flex; gap: 10px; margin-top: 14px; }
+.doc-actions button { font-size: 13px; border-radius: 8px; padding: 8px 18px; cursor: pointer; }
+.doc-download { background: var(--navy); color: #fff; border: none; }
+.doc-copy { background: #fff; color: var(--blue); border: 1px solid var(--blue); }
+
 .followup { padding: 0 26px 14px; }
 .followup .f-label { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; }
 .followup .f-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.f-chip { font-size: 12px; color: var(--blue); border: 1px solid rgba(46,95,192,0.3); background: #fff; border-radius: 20px; padding: 6px 14px; cursor: pointer; transition: all .15s; }
+.f-chip { font-size: 12px; color: var(--blue); border: 1px solid rgba(46,95,192,0.3); background: #fff; border-radius: 20px; padding: 6px 14px; cursor: pointer; }
 .f-chip:hover { background: var(--blue); color: #fff; }
 .input-bar { display: flex; gap: 10px; align-items: flex-end; padding: 14px 24px; background: #fff; border-top: 1px solid var(--line); }
 .input-bar textarea { flex: 1; min-height: 44px; max-height: 120px; resize: none; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-family: var(--sans); font-size: 14px; color: var(--ink); outline: none; }
 .input-bar textarea:focus { border-color: var(--navy); }
 .send-btn { flex-shrink: 0; width: 48px; height: 48px; border-radius: 10px; background: var(--navy); color: #fff; border: none; font-size: 18px; cursor: pointer; }
 
-/* ===== 右栏 ===== */
+/* 右栏 */
 .sidebar-right { width: 330px; flex-shrink: 0; background: #fff; border-left: 1px solid var(--line); display: flex; flex-direction: column; }
 .ref-head { padding: 16px 20px 12px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
 .ref-head .r-title { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--navy); }
@@ -113,49 +170,29 @@ body { font-family: var(--sans); color: var(--ink); background: var(--bg); heigh
 .ref-card .rc-count { font-size: 11px; color: var(--blue); cursor: pointer; }
 
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ===== 移动端 ===== */
-@media (max-width: 900px) {
-  .sidebar-left { display: none; }
-  .sidebar-right { display: none; }
-}
+@media (max-width: 900px) { .sidebar-left { display: none; } .sidebar-right { display: none; } }
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- 左栏 -->
   <aside class="sidebar-left">
-    <div class="brand">
-      <div class="logo">政务 AI<span class="accent"> · </span>文件助手</div>
-      <div class="sub">让决策有据可依</div>
-    </div>
+    <div class="brand"><div class="logo">政务 AI<span class="accent"> · </span>文件助手</div><div class="sub">让决策有据可依</div></div>
     <button class="new-btn" id="newTaskBtn">+ 新建任务</button>
-
     <div class="side-group">
       <div class="g-title">我的任务</div>
       <div id="taskList"></div>
     </div>
-
     <div class="side-group">
       <div class="g-title">知识库</div>
       <div class="nav-item"><span class="dot" style="background:var(--red)"></span>政策法规库</div>
       <div class="nav-item"><span class="dot" style="background:var(--blue)"></span>文献报道库</div>
       <div class="nav-item"><span class="dot" style="background:var(--green)"></span>内部资料库</div>
     </div>
-
-    <div class="side-group">
-      <div class="g-title">智能体</div>
-      <div class="nav-item"><span class="dot"></span>5 位专家 + 文件助手</div>
-    </div>
-
-    <div class="side-group">
-      <div class="g-title">我的产出物</div>
-      <div class="nav-item"><span class="dot"></span>历史参考稿存档</div>
-    </div>
+    <div class="side-group"><div class="g-title">智能体</div><div class="nav-item"><span class="dot"></span>5 位专家 + 文件助手</div></div>
+    <div class="side-group"><div class="g-title">我的产出物</div><div class="nav-item"><span class="dot"></span>历史参考稿存档</div></div>
   </aside>
 
-  <!-- 中栏 -->
   <main class="main">
     <div class="main-head">
       <span class="task-title" id="mainTitle">老旧小区改造行动计划</span>
@@ -169,12 +206,8 @@ body { font-family: var(--sans); color: var(--ink); background: var(--bg); heigh
     </div>
   </main>
 
-  <!-- 右栏 -->
   <aside class="sidebar-right">
-    <div class="ref-head">
-      <span class="r-title">参考文献</span>
-      <span class="r-count" id="refCount">0 项</span>
-    </div>
+    <div class="ref-head"><span class="r-title">参考文献</span><span class="r-count" id="refCount">0 项</span></div>
     <div class="ref-filter" id="refFilter">
       <button class="f-btn active" data-f="all">全部</button>
       <button class="f-btn" data-f="policy">政策</button>
@@ -189,38 +222,38 @@ body { font-family: var(--sans); color: var(--ink); background: var(--bg); heigh
 
 <script>
 var AGENTS = {
-  policy: { id:'policy', name:'政策研究员', icon:'政', color:'#C0392B', short:'政策',
-    refs:[
-      { type:'policy', org:'国务院办公厅', title:'关于全面推进城镇老旧小区改造工作的指导意见', sub:'国办发〔2020〕23号', date:'2020.07.20', excerpt:'全面推进城镇老旧小区改造，到"十四五"期末基本完成 2000 年底前建成需改造的老旧小区。', count:3 },
-      { type:'policy', org:'住建部等三部门', title:'关于进一步明确城镇老旧小区改造工作要求的通知', sub:'建办城〔2021〕25号', date:'2021.06.30', excerpt:'严禁以老旧小区改造为名违规举债、盲目铺摊子。', count:2 }
-    ] },
-  case: { id:'case', name:'案例研究员', icon:'案', color:'#7B5EA7', short:'报道',
-    refs:[
-      { type:'report', org:'《人民日报》', title:'杭州：加装电梯破解"悬空老人"难题', sub:'一线调研', date:'2024.09.12', excerpt:'全市累计加装电梯 5800 余台，惠及 12 万老年居民。', count:1 },
-      { type:'report', org:'《新华社》', title:'上海虹口成片化改造样本', sub:'城市更新观察', date:'2025.03.08', excerpt:'"成片统筹、整体更新"模式显著降低了改造成本。', count:1 }
-    ] },
-  local: { id:'local', name:'本地调研员', icon:'本', color:'#2F855A', short:'内部',
-    refs:[
-      { type:'internal', org:'区住建局', title:'老旧小区摸底台账（2026 年版）', sub:'内部资料', date:'2026.03.15', excerpt:'全区 2000 年前建成小区 68 个，涉及居民 3.2 万户。', count:2 },
-      { type:'internal', org:'区财政局', title:'2026 年财政预算安排说明', sub:'内部资料', date:'2026.01.20', excerpt:'本年度可用于老旧小区改造的财政资金约 2.7 亿元。', count:2 }
-    ] },
-  finance: { id:'finance', name:'财务研究员', icon:'财', color:'#C77B1E', short:'政策',
-    refs:[
-      { type:'policy', org:'财政部', title:'政府投资条例（国务院令第 712 号）', sub:'行政法规', date:'2019.05.05', excerpt:'政府投资应当与经济社会发展水平和财政收支状况相适应。', count:1 }
-    ] },
-  risk: { id:'risk', name:'风险分析员', icon:'险', color:'#9B2C20', short:'内部',
-    refs:[
-      { type:'internal', org:'区审计局', title:'上年度重点工程资金审计报告', sub:'内部资料', date:'2026.02.10', excerpt:'部分项目存在资金拨付滞后、结算超概算等问题。', count:1 },
-      { type:'report', org:'《财经》', title:'多地老旧小区改造"半拉子工程"调查', sub:'调查报道', date:'2025.11.03', excerpt:'资金链断裂导致多地改造项目停工、群众投诉激增。', count:1 }
-    ] }
+  policy: { id:'policy', name:'政策研究员', role:'法规专家', icon:'政', color:'#C0392B',
+    question:'哪些是硬约束，哪些是地方裁量空间？',
+    refs:[ { type:'policy', org:'国务院办公厅', title:'关于全面推进城镇老旧小区改造工作的指导意见', sub:'国办发〔2020〕23号', date:'2020.07.20', excerpt:'全面推进城镇老旧小区改造，到"十四五"期末基本完成需改造的老旧小区。' },
+           { type:'policy', org:'住建部等三部门', title:'关于进一步明确城镇老旧小区改造工作要求的通知', sub:'建办城〔2021〕25号', date:'2021.06.30', excerpt:'严禁以老旧小区改造为名违规举债、盲目铺摊子。' } ],
+    judge:'相关工作是"必答题"（硬约束），但范围、标准与节奏属地方裁量空间，不必一步到位。' },
+  case: { id:'case', name:'案例研究员', role:'对标专家', icon:'案', color:'#7B5EA7',
+    question:'外地做法哪些能移植，哪些会水土不服？',
+    refs:[ { type:'report', org:'《人民日报》', title:'杭州：加装电梯破解"悬空老人"难题', sub:'一线调研', date:'2024.09.12', excerpt:'全市累计加装电梯 5800 余台，惠及 12 万老年居民。' },
+           { type:'report', org:'《新华社》', title:'上海虹口成片化改造样本', sub:'城市更新观察', date:'2025.03.08', excerpt:'"成片统筹、整体更新"模式显著降低改造成本。' } ],
+    judge:'杭州依赖强财政需谨慎移植，上海成本高；成都"居民自治"可借鉴但需先培育社区治理。' },
+  local: { id:'local', name:'本地调研员', role:'数据专家', icon:'本', color:'#2F855A',
+    question:'本地的真实约束是什么？',
+    refs:[ { type:'internal', org:'区住建局', title:'老旧小区摸底台账（2026 年版）', sub:'内部资料', date:'2026.03.15', excerpt:'全区 2000 年前建成小区 68 个，涉及居民 3.2 万户。' },
+           { type:'internal', org:'区财政局', title:'2026 年财政预算安排说明', sub:'内部资料', date:'2026.01.20', excerpt:'本年度可用于老旧小区改造的财政资金约 2.7 亿元。' } ],
+    judge:'底数已摸清，真实约束集中在"钱"与"民意"两方面，而非政策允许与否。' },
+  finance: { id:'finance', name:'财务研究员', role:'资金专家', icon:'财', color:'#C77B1E',
+    question:'钱够不够，缺口怎么补？',
+    refs:[ { type:'policy', org:'财政部', title:'政府投资条例（国务院令第 712 号）', sub:'行政法规', date:'2019.05.05', excerpt:'政府投资应当与经济社会发展水平和财政收支状况相适应。' } ],
+    judge:'按目标估算总投资约 4.5 亿，财政可支配 2.7 亿，缺口 1.8 亿，需引入社会资本、专项债等补齐。' },
+  risk: { id:'risk', name:'风险分析员', role:'风控专家', icon:'险', color:'#9B2C20',
+    question:'什么条件下会出事，后果有多严重？',
+    refs:[ { type:'internal', org:'区审计局', title:'上年度重点工程资金审计报告', sub:'内部资料', date:'2026.02.10', excerpt:'部分项目存在资金拨付滞后、结算超概算等问题。' },
+           { type:'report', org:'《财经》', title:'多地老旧小区改造"半拉子工程"调查', sub:'调查报道', date:'2025.11.03', excerpt:'资金链断裂导致多地改造项目停工、群众投诉激增。' } ],
+    judge:'资金缺口是第一大风险，若不解决将导致项目烂尾、引发舆情发酵。' }
 };
 
 var TASK_TYPES = [
-  { id:'special', name:'专项类', output:'行动方案', kw:['改造','整治','攻坚','行动','计划','建设','专项'], agents:['policy','case','local','finance','risk'], sandbox:true },
-  { id:'research', name:'调研类', output:'调研报告', kw:['调研','摸底','考察','评估','走访','现状'], agents:['local','case','risk'], sandbox:false },
-  { id:'meeting', name:'会议类', output:'会议方案', kw:['会议','开会','座谈','接待','议程'], agents:['local'], sandbox:false },
-  { id:'report', name:'汇报类', output:'汇报材料', kw:['汇报','总结','述职'], agents:['local'], sandbox:false },
-  { id:'interpret', name:'解读类', output:'解读稿', kw:['解读','转发','学习','贯彻','精神'], agents:['policy','local'], sandbox:false }
+  { id:'special', name:'专项类', output:'行动方案', explain:'改造、整治、攻坚等需多部门协同、涉及资金测算的复杂任务', kw:['改造','整治','攻坚','行动','计划','建设','专项'], agents:['policy','case','local','finance','risk'], sandbox:true },
+  { id:'research', name:'调研类', output:'调研报告', explain:'摸底、考察、评估等需实地走访、收集数据并形成报告的任务', kw:['调研','摸底','考察','评估','走访','现状'], agents:['local','case','risk'], sandbox:false },
+  { id:'meeting', name:'会议类', output:'会议方案', explain:'开会、接待、座谈等需准备议程、材料与参会安排的任务', kw:['会议','开会','座谈','接待','议程'], agents:['local'], sandbox:false },
+  { id:'report', name:'汇报类', output:'汇报材料', explain:'向领导或上级汇报工作成效、问题与下一步计划的任务', kw:['汇报','总结','述职'], agents:['local'], sandbox:false },
+  { id:'interpret', name:'解读类', output:'解读稿', explain:'转发、学习上级文件并形成本地贯彻落实意见的任务', kw:['解读','转发','学习','贯彻','精神'], agents:['policy','local'], sandbox:false }
 ];
 
 var DRAFT = {
@@ -244,154 +277,28 @@ function recognize(text){
   var best=null, bs=0;
   for (var i=0;i<TASK_TYPES.length;i++){ var t=TASK_TYPES[i], s=0; for (var j=0;j<t.kw.length;j++) if(text.indexOf(t.kw[j])>=0) s++; if(s>bs){bs=s;best=t;} }
   if(!best) best=TASK_TYPES[0];
-  var conf = bs>=2?94:(bs===1?86:55);
-  return { type:best.id, confidence:conf };
+  return { type:best.id, confidence: bs>=2?94:(bs===1?86:55) };
 }
 
-var state = { currentType:'special', currentTask:null, filter:'all', refs:[] };
+var state = { currentTask:'t1', currentType:'special', filter:'all', step:0 };
 
 var tasks = [
-  { id:'t1', title:'老旧小区改造行动计划', type:'special', time:'08-17 22:30', icon:'改', color:'#C0392B',
-    messages:[
-      { role:'user', text:'省里要求我区三年内完成老旧小区改造，帮我起草一份行动计划，下周三上常委会。', time:'22:30' },
-      { role:'ai' }
-    ] },
-  { id:'t2', title:'社区养老服务调研', type:'research', time:'08-15 14:20', icon:'养', color:'#2F855A',
-    messages:[
-      { role:'user', text:'帮我调研一下社区养老服务的现状和问题。', time:'14:20' },
-      { role:'ai' }
-    ] },
-  { id:'t3', title:'营商环境座谈会', type:'meeting', time:'08-12 09:15', icon:'商', color:'#2E5FC0',
-    messages:[
-      { role:'user', text:'筹备一场营商环境座谈会，帮我出个会议方案。', time:'09:15' },
-      { role:'ai' }
-    ] }
+  { id:'t1', title:'老旧小区改造行动计划', type:'special', time:'08-17 22:30', icon:'改', color:'#C0392B', done:true },
+  { id:'t2', title:'社区养老服务调研', type:'research', time:'08-15 14:20', icon:'养', color:'#2F855A', done:false },
+  { id:'t3', title:'营商环境座谈会', type:'meeting', time:'08-12 09:15', icon:'商', color:'#2E5FC0', done:false }
 ];
 
+function currentTask(){ return tasks.find(function(x){ return x.id===state.currentTask; }); }
+
 function renderTaskList(){
-  var el = document.getElementById('taskList');
-  el.innerHTML = '';
+  var el = document.getElementById('taskList'); el.innerHTML='';
   tasks.forEach(function(t){
     var div = document.createElement('div');
     div.className = 'task-item' + (state.currentTask===t.id ? ' active' : '');
     div.innerHTML = '<div class="t-ico" style="background:'+t.color+'">'+t.icon+'</div>' +
       '<div class="t-info"><div class="t-title">'+t.title+'</div><div class="t-meta">'+typeOf(t.type).name+' · '+t.time+'</div></div>';
-    div.onclick = function(){ state.currentTask = t.id; state.currentType = t.type; renderAll(); };
+    div.onclick = function(){ state.currentTask=t.id; state.currentType=t.type; state.step=0; renderAll(); };
     el.appendChild(div);
-  });
-}
-
-function renderConversation(){
-  var t = tasks.find(function(x){ return x.id===state.currentTask; });
-  var el = document.getElementById('conversation');
-  el.innerHTML = '';
-  document.getElementById('mainTitle').textContent = t.title;
-  t.messages.forEach(function(m){
-    var div = document.createElement('div');
-    if (m.role==='user'){
-      div.className = 'msg user';
-      div.innerHTML = '<div class="bubble">'+m.text+'</div><div class="m-meta">李局长 · '+m.time+'</div>';
-    } else {
-      div.className = 'msg ai';
-      div.innerHTML = '<div class="bubble">'+buildAIBlocks()+'</div><div class="m-meta">AI 文件助手</div>';
-    }
-    el.appendChild(div);
-  });
-  el.scrollTop = el.scrollHeight;
-}
-
-function buildAIBlocks(){
-  var t = typeOf(state.currentType);
-  var html = '';
-  html += '<div class="ai-block"><div class="b-title">任务识别</div><div class="rec-line">' +
-    '<span class="rec-badge">'+t.name+' · '+t.output+'</span>' +
-    '<span class="conf high">置信度 94%</span></div>' +
-    '<div class="type-tabs">'+buildTabs()+'</div></div>';
-
-  html += '<div class="ai-block"><div class="b-title">专家会诊（'+t.agents.length+' 位专家）</div>' +
-    '<div class="agent-chips">'+buildAgentChips(t)+'</div></div>';
-
-  if (t.sandbox){
-    html += '<div class="ai-block"><div class="b-title">沙盘推演</div>' +
-      '<div class="draft-preview"><div class="dp-title">资金缺口率 40% · 高风险</div>' +
-      '<div class="dp-sec">建议分两期实施，优先改造 24 个成熟小区</div>' +
-      '<div class="dp-sec" style="color:#C0392B">传导链：资金断档→项目停工→居民投诉→舆情发酵</div></div></div>';
-  }
-
-  html += '<div class="ai-block"><div class="b-title">参考稿（草拟）</div>' +
-    '<div class="draft-preview"><div class="dp-title">'+DRAFT[state.currentType].title+'</div>' +
-    DRAFT[state.currentType].secs.map(function(s){ return '<div class="dp-sec">'+s+'</div>'; }).join('') +
-    '</div></div>';
-  return html;
-}
-
-function buildTabs(){
-  return TASK_TYPES.map(function(t){
-    return '<span class="type-tab'+(t.id===state.currentType?' active':'')+'" data-type="'+t.id+'">'+t.name+'</span>';
-  }).join('');
-}
-
-function buildAgentChips(t){
-  var all = t.agents.concat(['clerk']);
-  return all.map(function(aid, i){
-    var a = AGENTS[aid];
-    var label = aid==='clerk' ? '文件助手' : a.name;
-    var icon = aid==='clerk' ? '稿' : a.icon;
-    var color = aid==='clerk' ? '#2E5FC0' : a.color;
-    return '<span class="agent-chip"><span class="ac" style="background:'+color+'">'+icon+'</span>'+label+'</span>';
-  }).join('');
-}
-
-function collectRefs(){
-  var t = typeOf(state.currentType);
-  var list = [];
-  var seen = {};
-  t.agents.forEach(function(aid){
-    var a = AGENTS[aid];
-    if (a && a.refs) a.refs.forEach(function(r){
-      var key = r.title;
-      if (!seen[key]){ seen[key]=true; list.push(r); }
-    });
-  });
-  return list;
-}
-
-function renderRefs(){
-  state.refs = collectRefs();
-  document.getElementById('refCount').textContent = state.refs.length + ' 项';
-  var el = document.getElementById('refList');
-  el.innerHTML = '';
-  var filtered = state.refs.filter(function(r){ return state.filter==='all' || r.type===state.filter; });
-  filtered.forEach(function(r, i){
-    var colorMap = { policy:'#C0392B', report:'#2E5FC0', paper:'#7B5EA7', internal:'#2F855A' };
-    var typeLabel = { policy:'政策', report:'报道', paper:'文献', internal:'内部' };
-    var div = document.createElement('div');
-    div.className = 'ref-card';
-    div.style.setProperty('--rc', colorMap[r.type]);
-    div.style.animationDelay = (i*0.05)+'s';
-    div.innerHTML =
-      '<div class="rc-head"><span class="rtype '+r.type+'">'+typeLabel[r.type]+'</span><span class="rc-org">'+r.org+'</span></div>' +
-      '<div class="rc-title">'+r.title+'</div>' +
-      '<div class="rc-sub">'+r.sub+'</div>' +
-      '<div class="rc-date">'+r.date+'</div>' +
-      '<div class="rc-excerpt">'+r.excerpt+'</div>' +
-      '<div class="rc-count">引用 '+r.count+' 次 ↓</div>';
-    el.appendChild(div);
-  });
-}
-
-function renderFollowup(){
-  var f = FOLLOWUPS[state.currentType] || [];
-  var el = document.getElementById('followup');
-  if (f.length===0){ el.innerHTML=''; return; }
-  var html = '<div class="f-label">追问建议</div><div class="f-chips">';
-  f.forEach(function(txt){ html += '<span class="f-chip">'+txt+'</span>'; });
-  html += '</div>';
-  el.innerHTML = html;
-  el.querySelectorAll('.f-chip').forEach(function(chip){
-    chip.onclick = function(){
-      document.getElementById('chatInput').value = chip.textContent;
-    };
   });
 }
 
@@ -400,56 +307,247 @@ function renderAll(){
   renderConversation();
   renderRefs();
   renderFollowup();
-  bindTabs();
 }
 
-function bindTabs(){
-  document.querySelectorAll('.type-tab').forEach(function(tab){
-    tab.onclick = function(){
-      state.currentType = tab.getAttribute('data-type');
-      var t = tasks.find(function(x){ return x.id===state.currentTask; });
-      if (t) t.type = state.currentType;
-      renderAll();
-    };
+/* ===== 对话流（分步）===== */
+function renderConversation(){
+  var el = document.getElementById('conversation');
+  el.innerHTML = '';
+  document.getElementById('mainTitle').textContent = currentTask().title;
+  var t = currentTask();
+  if (t.done){
+    el.appendChild(userMsg('省里要求我区三年内完成老旧小区改造，帮我起草一份行动计划，下周三上常委会。', '22:30'));
+    el.appendChild(stepRecognize(true));
+    el.appendChild(stepExperts(true));
+    el.appendChild(stepSandbox());
+    el.appendChild(stepDoc());
+  } else {
+    el.appendChild(userMsg('输入任务后，AI 将分四步逐步完成：识别 → 会诊 → 沙盘 → 成稿。', ''));
+  }
+  el.scrollTop = el.scrollHeight;
+}
+
+function userMsg(text, time){
+  var div = document.createElement('div');
+  div.className = 'msg user';
+  div.innerHTML = '<div class="bubble">'+text+'</div>' + (time ? '<div class="m-meta">李局长 · '+time+'</div>' : '');
+  return div;
+}
+
+function stepShell(no, name, status){
+  var div = document.createElement('div');
+  div.className = 'step';
+  div.innerHTML = '<div class="step-head"><span class="step-no">第 '+no+' 步</span><span class="step-name">'+name+'</span><span class="step-status">'+status+'</span></div>';
+  return div;
+}
+
+function stepRecognize(isDone){
+  var shell = stepShell('1', '任务识别', isDone ? '已完成' : '识别中…');
+  var t = typeOf(state.currentType);
+  var conf = 94;
+  var body = document.createElement('div'); body.className='step-body';
+  var html = '<div class="rec-line"><span class="rec-badge">'+t.name+' · '+t.output+'</span><span class="conf high">置信度 '+conf+'%</span></div>';
+  html += '<div style="font-size:12px;color:#5B6472;margin-top:10px;">以下 5 种任务类型会自动匹配不同的专家与步骤，如识别有误可在下方切换：</div>';
+  html += '<div class="type-list">';
+  TASK_TYPES.forEach(function(tt){
+    html += '<div class="type-option'+(tt.id===state.currentType?' active':'')+'" data-type="'+tt.id+'">' +
+      '<span class="to-radio"></span>' +
+      '<div><div><span class="to-name">'+tt.name+'</span> <span class="to-output">→ '+tt.output+'</span></div>' +
+      '<div class="to-explain">'+tt.explain+'</div></div></div>';
+  });
+  html += '</div>';
+  if (!isDone) html += '<button class="confirm-btn" id="confirmBtn">确认，开始专家会诊</button>';
+  body.innerHTML = html;
+  shell.appendChild(body);
+  if (!isDone){
+    setTimeout(function(){
+      body.querySelectorAll('.type-option').forEach(function(op){
+        op.onclick = function(){ state.currentType = op.getAttribute('data-type'); currentTask().type = state.currentType; renderAll(); };
+      });
+      document.getElementById('confirmBtn').onclick = startExperts;
+    }, 0);
+  }
+  return shell;
+}
+
+function stepExperts(isDone){
+  var shell = stepShell('2', '专家会诊', isDone ? '已完成' : '进行中…');
+  var body = document.createElement('div'); body.className='step-body';
+  var t = typeOf(state.currentType);
+  var list = t.agents;
+  shell.appendChild(body);
+  if (isDone){
+    list.forEach(function(aid){ body.appendChild(expertCard(aid, 0)); });
+    body.appendChild(doneBanner('会诊完成，共引用 '+collectRefs().length+' 项资料 → 详见右侧参考文献'));
+  }
+  return shell;
+}
+
+function expertCard(aid, delay){
+  var a = AGENTS[aid];
+  var div = document.createElement('div');
+  div.className = 'expert-card';
+  div.style.setProperty('--ec', a.color);
+  div.style.animationDelay = delay+'s';
+  var refsHtml = a.refs.map(function(r){ return '<span class="ec-ref">'+r.type==='policy'?'政策':r.type==='report'?'报道':r.type==='paper'?'文献':'内部'+' · '+r.title.split('（')[0]+'</span>'; }).join('');
+  div.innerHTML =
+    '<div class="ec-head"><div class="ec-avatar" style="background:'+a.color+'">'+a.icon+'</div>' +
+    '<div><div class="ec-name">'+a.name+'</div><div class="ec-role">'+a.role+'</div></div>' +
+    '<span class="ec-doing">正在分析…</span></div>' +
+    '<div class="ec-q"><b>分析</b>｜'+a.question+'</div>' +
+    '<div class="ec-refs">'+refsHtml+'</div>' +
+    '<div class="ec-judge"><b>结论</b>｜'+a.judge+'</div>' +
+    '<div class="ec-output">输出：研判意见（已纳入参考稿）</div>';
+  return div;
+}
+
+function doneBanner(text){
+  var div = document.createElement('div');
+  div.className = 'done-banner';
+  div.textContent = '✓ ' + text;
+  return div;
+}
+
+function startExperts(){
+  var conv = document.getElementById('conversation');
+  var shell = stepExperts(false);
+  conv.appendChild(shell);
+  var body = shell.querySelector('.step-body');
+  var t = typeOf(state.currentType);
+  var list = t.agents;
+  list.forEach(function(aid, i){
+    setTimeout(function(){ body.appendChild(expertCard(aid, 0)); }, i * 550);
+  });
+  var totalDelay = list.length * 550 + 400;
+  setTimeout(function(){ body.appendChild(doneBanner('会诊完成，共引用 '+collectRefs().length+' 项资料 → 详见右侧参考文献')); renderRefs(); }, totalDelay);
+  setTimeout(function(){ conv.appendChild(stepSandbox()); }, totalDelay + 500);
+  setTimeout(function(){ conv.appendChild(stepDoc()); currentTask().done = true; }, totalDelay + 900);
+  conv.scrollTop = conv.scrollHeight;
+  setTimeout(function(){ conv.scrollTop = conv.scrollHeight; }, totalDelay + 1000);
+}
+
+function stepSandbox(){
+  var shell = stepShell('3', '数字沙盘推演', '推演中…');
+  var body = document.createElement('div'); body.className='step-body';
+  var t = typeOf(state.currentType);
+  if (!t.sandbox){
+    body.innerHTML = '<div style="font-size:13px;color:#5B6472;">本任务类型无需资金测算，跳过沙盘推演环节，直接生成参考稿。</div>';
+    shell.appendChild(body);
+    return shell;
+  }
+  body.innerHTML =
+    '<div class="sandbox-grid">' +
+    '<div>' +
+      '<div class="param"><div class="label"><span>三年改造小区数</span><span class="val" id="v-n">60 个</span></div><input type="range" id="s-n" min="20" max="80" value="60"><div style="font-size:11px;color:#9AA1AD;margin-top:4px;">拖动调整</div></div>' +
+      '<div class="param"><div class="label"><span>财政可支配预算</span><span class="val" id="v-b">2.7 亿</span></div><input type="range" id="s-b" min="1" max="5" step="0.1" value="2.7"></div>' +
+      '<div class="param"><div class="label"><span>居民改造意愿</span><span class="val" id="v-w">76%</span></div><input type="range" id="s-w" min="40" max="95" value="76"></div>' +
+      '<div class="param"><div class="label"><span>社会资本引入比例</span><span class="val" id="v-s">0%</span></div><input type="range" id="s-s" min="0" max="40" value="0"></div>' +
+    '</div>' +
+    '<div>' +
+      '<div class="metrics">' +
+        '<div class="metric"><div class="k">总投资</div><div class="v" id="r-cost">4.5<small> 亿</small></div></div>' +
+        '<div class="metric hot"><div class="k">资金缺口</div><div class="v" id="r-gap">1.8<small> 亿</small></div></div>' +
+        '<div class="metric"><div class="k">影响人口</div><div class="v" id="r-pop">2.8<small> 万户</small></div></div>' +
+        '<div class="metric"><div class="k">覆盖需求率</div><div class="v" id="r-cover">64<small> %</small></div></div>' +
+      '</div>' +
+      '<div class="gap-bar"><div class="bl"><span>资金缺口率</span><b id="r-gaprate">40%</b></div><div class="track"><div class="fill" id="r-gapbar" style="width:40%;background:#C0392B;"></div></div></div>' +
+      '<div class="verdict"><span class="tag high" id="r-tag">高风险</span><div class="v-title" id="r-title">建议分两期实施</div><div class="v-desc" id="r-desc">资金缺口 40%。</div><div class="chain" id="r-chain"></div></div>' +
+    '</div></div>';
+  shell.appendChild(body);
+  setTimeout(runSandbox, 0);
+  return shell;
+}
+
+function stepDoc(){
+  var shell = stepShell('4', '输出参考稿', '草拟完成');
+  var body = document.createElement('div'); body.className='step-body';
+  var d = DRAFT[state.currentType];
+  body.innerHTML = '<div class="doc-preview"><div class="dp-title">'+d.title+'</div>' +
+    d.secs.map(function(s){ return '<div class="dp-sec"><span class="h">'+s+'</span></div>'; }).join('') +
+    '</div>' +
+    '<div style="font-size:11px;color:#9AA1AD;margin-top:10px;">AI 辅助草拟 · 供人工审定 · 非正式发文</div>' +
+    '<div class="doc-actions"><button class="doc-download">下载 Word</button><button class="doc-copy">复制全文</button></div>';
+  shell.appendChild(body);
+  return shell;
+}
+
+/* ===== 沙盘 ===== */
+var COST_PER=0.075, HOUSE_PER=470;
+function fmt(x){ return Math.round(x*10)/10; }
+function runSandbox(){
+  var n=+document.getElementById('s-n').value, b=+document.getElementById('s-b').value, w=+document.getElementById('s-w').value, s=+document.getElementById('s-s').value;
+  document.getElementById('v-n').textContent=n+' 个'; document.getElementById('v-b').textContent=b+' 亿'; document.getElementById('v-w').textContent=w+'%'; document.getElementById('v-s').textContent=s+'%';
+  var totalCost=n*COST_PER, gap=Math.max(0,totalCost-b-totalCost*s/100), gapRate=gap/totalCost, pop=n*HOUSE_PER/10000, cover=Math.min(100,w*(1-gapRate*0.4)), ratePct=Math.round(gapRate*100);
+  document.getElementById('r-cost').innerHTML=fmt(totalCost)+'<small> 亿</small>';
+  document.getElementById('r-gap').innerHTML=fmt(gap)+'<small> 亿</small>';
+  document.getElementById('r-pop').innerHTML=fmt(pop)+'<small> 万户</small>';
+  document.getElementById('r-cover').innerHTML=Math.round(cover)+'<small> %</small>';
+  document.getElementById('r-gaprate').textContent=ratePct+'%';
+  var bar=document.getElementById('r-gapbar'); bar.style.width=Math.min(100,ratePct)+'%';
+  var tag=document.getElementById('r-tag'), title=document.getElementById('r-title'), desc=document.getElementById('r-desc'), chain=document.getElementById('r-chain');
+  var first=Math.max(1,Math.round(n*0.4)), second=n-first;
+  if (gapRate>0.30){ bar.style.background='#C0392B'; tag.className='tag high'; tag.textContent='高风险'; title.textContent='建议分两期实施，优先改造 '+first+' 个成熟小区'; desc.textContent='资金缺口 '+ratePct+'%，第二期 '+second+' 个小区将资金断档。'; chain.innerHTML='<span class="chain-node">资金断档</span><span class="chain-arrow">→</span><span class="chain-node">项目停工</span><span class="chain-arrow">→</span><span class="chain-node">居民投诉</span><span class="chain-arrow">→</span><span class="chain-node">舆情发酵</span>'; }
+  else if (gapRate>0.15){ bar.style.background='#C77B1E'; tag.className='tag mid'; tag.textContent='中等风险'; title.textContent='建议引入社会资本 + 以奖代补'; desc.textContent='缺口 '+fmt(gap)+' 亿元，可通过社会资本、专项债补齐。'; chain.innerHTML='<span class="chain-node">资金偏紧</span><span class="chain-arrow">→</span><span class="chain-node">部分进度放缓</span>'; }
+  else { bar.style.background='#2F855A'; tag.className='tag low'; tag.textContent='低风险'; title.textContent='资金自洽，可按计划推进'; desc.textContent='目标、资金、民意自洽，具备上会条件。'; chain.innerHTML=''; }
+}
+['s-n','s-b','s-w','s-s'].forEach(function(id){ document.addEventListener('input', function(e){ if(e.target && e.target.id===id) runSandbox(); }); });
+
+/* ===== 参考文献 ===== */
+function collectRefs(){
+  var t = typeOf(state.currentType); var list=[], seen={};
+  t.agents.forEach(function(aid){ var a=AGENTS[aid]; if(a&&a.refs) a.refs.forEach(function(r){ if(!seen[r.title]){ seen[r.title]=true; list.push(r); } }); });
+  return list;
+}
+function renderRefs(){
+  var refs = collectRefs();
+  document.getElementById('refCount').textContent = refs.length+' 项';
+  var el=document.getElementById('refList'); el.innerHTML='';
+  var filtered = refs.filter(function(r){ return state.filter==='all'||r.type===state.filter; });
+  var colorMap={policy:'#C0392B',report:'#2E5FC0',paper:'#7B5EA7',internal:'#2F855A'};
+  var labelMap={policy:'政策',report:'报道',paper:'文献',internal:'内部'};
+  filtered.forEach(function(r,i){
+    var div=document.createElement('div');
+    div.className='ref-card'; div.style.setProperty('--rc',colorMap[r.type]); div.style.animationDelay=(i*0.05)+'s';
+    div.innerHTML='<div class="rc-head"><span class="rtype '+r.type+'">'+labelMap[r.type]+'</span><span class="rc-org">'+r.org+'</span></div>' +
+      '<div class="rc-title">'+r.title+'</div><div class="rc-sub">'+r.sub+'</div><div class="rc-date">'+r.date+'</div>' +
+      '<div class="rc-excerpt">'+r.excerpt+'</div><div class="rc-count">引用 ↓</div>';
+    el.appendChild(div);
   });
 }
 
-function send(){
-  var input = document.getElementById('chatInput');
-  var text = input.value.trim();
-  if (!text) return;
-  var t = tasks.find(function(x){ return x.id===state.currentTask; });
-  t.messages.push({ role:'user', text:text, time:'刚刚' });
-  t.messages.push({ role:'ai' });
-  state.currentType = recognize(text).type;
-  t.type = state.currentType;
-  input.value = '';
-  renderAll();
+/* ===== 追问 ===== */
+function renderFollowup(){
+  var f=FOLLOWUPS[state.currentType]||[];
+  var el=document.getElementById('followup');
+  if(f.length===0){ el.innerHTML=''; return; }
+  var html='<div class="f-label">追问建议</div><div class="f-chips">';
+  f.forEach(function(txt){ html+='<span class="f-chip">'+txt+'</span>'; });
+  html+='</div>'; el.innerHTML=html;
+  el.querySelectorAll('.f-chip').forEach(function(chip){ chip.onclick=function(){ document.getElementById('chatInput').value=chip.textContent; }; });
 }
 
-function newTask(){
-  var input = document.getElementById('chatInput');
-  input.value = '';
-  input.focus();
-  var placeholder = '描述你的任务，例如：省里要求三年完成老旧小区改造，帮我起草行动计划';
-  input.placeholder = placeholder;
+/* ===== 发送 ===== */
+function send(){
+  var input=document.getElementById('chatInput'); var text=input.value.trim();
+  if(!text) return;
+  input.value='';
+  var conv=document.getElementById('conversation');
+  conv.appendChild(userMsg(text, '刚刚'));
+  state.currentType = recognize(text).type;
+  currentTask().type = state.currentType;
+  currentTask().done = false;
+  conv.appendChild(stepRecognize(false));
+  conv.scrollTop = conv.scrollHeight;
+  renderTaskList();
 }
+function newTask(){ document.getElementById('chatInput').value=''; document.getElementById('chatInput').focus(); }
 
 document.getElementById('sendBtn').addEventListener('click', send);
-document.getElementById('chatInput').addEventListener('keydown', function(e){
-  if (e.key==='Enter' && (e.ctrlKey||e.metaKey)){ e.preventDefault(); send(); }
-});
+document.getElementById('chatInput').addEventListener('keydown', function(e){ if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){ e.preventDefault(); send(); } });
 document.getElementById('newTaskBtn').addEventListener('click', newTask);
-document.querySelectorAll('#refFilter .f-btn').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    document.querySelectorAll('#refFilter .f-btn').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    state.filter = btn.getAttribute('data-f');
-    renderRefs();
-  });
-});
+document.querySelectorAll('#refFilter .f-btn').forEach(function(btn){ btn.addEventListener('click', function(){ document.querySelectorAll('#refFilter .f-btn').forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active'); state.filter=btn.getAttribute('data-f'); renderRefs(); }); });
 
-state.currentTask = 't1';
+state.currentTask='t1';
 renderAll();
 </script>
 </body>
