@@ -15,12 +15,17 @@
   --green: #2F855A; --green-soft: #EAF3EE;
   --blue: #2E5FC0; --blue-soft: #EDF2FB;
   --purple: #7B5EA7; --purple-soft: #F0EDF8;
-  --gold: #F2B84B;
   --line: #E2E5EA;
   --serif: "Noto Serif SC", "SimSun", "Songti SC", serif;
   --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   --mono: "JetBrains Mono", "SF Mono", "Consolas", monospace;
-  --sideL-bg: #1B2A4A;
+  /* 三栏底色：淡绿 / 冷灰 / 暖米 */
+  --sideL-bg: #E6EFE7;
+  --sideL-ink: #1F4A33;
+  --sideL-ink2: #5C7A68;
+  --sideL-ink3: #8AA496;
+  --sideL-active: #D4E6DA;
+  --sideL-accent: #2E5E45;
   --main-bg: #EEF0F3;
   --sideR-bg: #F7F4EC;
 }
@@ -28,31 +33,30 @@
 body { font-family: var(--sans); color: var(--ink); background: var(--main-bg); height: 100vh; overflow: hidden; -webkit-font-smoothing: antialiased; }
 .app { display: flex; height: 100vh; }
 
-/* ===== 左栏 ===== */
-.sidebar-left { width: 252px; flex-shrink: 0; background: var(--sideL-bg); display: flex; flex-direction: column; overflow-y: auto; }
-.brand { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-.brand .logo { font-family: var(--serif); font-size: 18px; font-weight: 900; color: #fff; }
-.brand .logo .accent { color: var(--gold); }
-.brand .sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; letter-spacing: 1px; }
-.new-btn { margin: 16px; background: var(--gold); color: var(--navy); border: none; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; }
-.new-btn:hover { background: #F5C869; }
+/* ===== 左栏（淡绿） ===== */
+.sidebar-left { width: 252px; flex-shrink: 0; background: var(--sideL-bg); display: flex; flex-direction: column; overflow-y: auto; border-right: 1px solid #D3E0D6; }
+.brand { padding: 20px 20px 16px; border-bottom: 1px solid #D3E0D6; }
+.brand .logo { font-family: var(--serif); font-size: 18px; font-weight: 900; color: var(--sideL-ink); }
+.brand .logo .accent { color: var(--sideL-accent); }
+.brand .sub { font-size: 11px; color: var(--sideL-ink3); margin-top: 3px; letter-spacing: 1px; }
+.new-btn { margin: 16px; background: var(--sideL-accent); color: #fff; border: none; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.new-btn:hover { background: #24503A; }
 .side-group { padding: 4px 0 12px; }
-.side-group .g-title { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 2px; margin: 12px 20px 8px; }
+.side-group .g-title { font-size: 10px; color: var(--sideL-ink3); letter-spacing: 2px; margin: 12px 20px 8px; }
 .task-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; cursor: pointer; margin: 0 8px 2px; border-radius: 9px; position: relative; transition: background .15s; }
-.task-item:hover { background: rgba(255,255,255,0.05); }
-.task-item.active { background: rgba(255,255,255,0.07); }
-.task-item.active::before { content: ''; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 2px; background: var(--gold); }
+.task-item:hover { background: rgba(46,94,69,0.06); }
+.task-item.active { background: var(--sideL-active); }
+.task-item.active::before { content: ''; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 2px; background: var(--sideL-accent); }
 .task-item .t-ico { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
 .task-item .t-info { flex: 1; min-width: 0; }
-.task-item .t-title { font-size: 13px; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.task-item .t-meta { font-size: 11px; color: rgba(255,255,255,0.4); }
-.task-item.active .t-title { color: #fff; }
-.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; margin: 0 8px 2px; border-radius: 9px; cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.72); position: relative; transition: background .15s; }
-.nav-item:hover { background: rgba(255,255,255,0.05); }
-.nav-item.active { background: rgba(255,255,255,0.07); color: #fff; }
-.nav-item.active::before { content: ''; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 2px; background: var(--gold); }
-.nav-item .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); flex-shrink: 0; }
-.nav-item .n-cnt { font-size: 11px; color: rgba(255,255,255,0.4); margin-left: auto; }
+.task-item .t-title { font-size: 13px; color: var(--sideL-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.task-item .t-meta { font-size: 11px; color: var(--sideL-ink3); }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; margin: 0 8px 2px; border-radius: 9px; cursor: pointer; font-size: 13px; color: var(--sideL-ink2); position: relative; transition: background .15s; }
+.nav-item:hover { background: rgba(46,94,69,0.06); }
+.nav-item.active { background: var(--sideL-active); color: var(--sideL-ink); }
+.nav-item.active::before { content: ''; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 2px; background: var(--sideL-accent); }
+.nav-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sideL-ink3); flex-shrink: 0; }
+.nav-item .n-cnt { font-size: 11px; color: var(--sideL-ink3); margin-left: auto; }
 
 /* ===== 中栏 ===== */
 .main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--main-bg); }
@@ -77,7 +81,6 @@ body { font-family: var(--sans); color: var(--ink); background: var(--main-bg); 
 .rec-badge { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--red-deep); background: var(--red-soft); border: 1px solid rgba(192,57,43,0.25); padding: 5px 13px; border-radius: 8px; }
 .conf { font-family: var(--mono); font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
 .conf.high { background: var(--green-soft); color: var(--green); }
-.conf.mid { background: var(--amber-soft); color: var(--amber); }
 .type-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
 .type-option { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; transition: all .15s; }
 .type-option:hover { border-color: var(--navy); }
@@ -89,14 +92,12 @@ body { font-family: var(--sans); color: var(--ink); background: var(--main-bg); 
 .type-option .to-output { font-size: 11px; color: var(--blue); white-space: nowrap; }
 .type-option .to-explain { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
 .confirm-btn { margin-top: 14px; background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; }
-.confirm-btn:hover { background: var(--navy-2); }
 
 .expert-card { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; background: #FBFBFC; animation: rise .5s ease both; }
 .expert-card .ec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .expert-card .ec-avatar { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; }
 .expert-card .ec-name { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--ink); }
 .expert-card .ec-role { font-size: 11px; color: var(--ink-3); }
-.expert-card .ec-doing { font-size: 11px; color: var(--blue); margin-left: auto; white-space: nowrap; }
 .expert-card .ec-q { font-size: 12.5px; color: var(--ink-2); margin-bottom: 8px; }
 .expert-card .ec-q b { color: var(--navy); }
 .expert-card .ec-refs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
@@ -143,7 +144,6 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
 .doc-download { background: var(--navy); color: #fff; border: none; }
 .doc-copy { background: #fff; color: var(--blue); border: 1px solid var(--blue); }
 
-/* 视图 */
 .view-wrap { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px 26px; }
 .view-title { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
 .view-desc { font-size: 13px; color: var(--ink-3); margin-bottom: 20px; }
@@ -154,31 +154,33 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
 .kb-item .ki-tag { flex-shrink: 0; margin-top: 2px; }
 .kb-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
 .kb-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
-.kb-tag.policy { background: var(--red-soft); color: var(--red-deep); }
-.kb-tag.policy::before { background: var(--red); }
-.kb-tag.report { background: var(--blue-soft); color: var(--blue); }
-.kb-tag.report::before { background: var(--blue); }
-.kb-tag.paper { background: var(--purple-soft); color: var(--purple); }
-.kb-tag.paper::before { background: var(--purple); }
-.kb-tag.internal { background: var(--green-soft); color: var(--green); }
-.kb-tag.internal::before { background: var(--green); }
+.kb-tag.policy { background: var(--red-soft); color: var(--red-deep); } .kb-tag.policy::before { background: var(--red); }
+.kb-tag.report { background: var(--blue-soft); color: var(--blue); } .kb-tag.report::before { background: var(--blue); }
+.kb-tag.paper { background: var(--purple-soft); color: var(--purple); } .kb-tag.paper::before { background: var(--purple); }
+.kb-tag.internal { background: var(--green-soft); color: var(--green); } .kb-tag.internal::before { background: var(--green); }
 .kb-item .ki-body { flex: 1; }
 .kb-item .ki-title { font-size: 14px; font-weight: 600; color: var(--ink); }
 .kb-item .ki-meta { font-size: 12px; color: var(--ink-3); margin-top: 3px; }
 .kb-item .ki-excerpt { font-size: 12px; color: var(--ink-2); margin-top: 6px; line-height: 1.6; }
 
-.agent-detail { border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; background: #fff; }
+.agent-detail { border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; background: #fff; position: relative; }
+.agent-detail .ad-edit-btn { position: absolute; top: 16px; right: 16px; font-size: 12px; color: var(--blue); border: 1px solid var(--blue); border-radius: 7px; padding: 4px 14px; cursor: pointer; background: #fff; }
 .agent-detail .ad-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .agent-detail .ad-avatar { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 18px; font-weight: 700; color: #fff; }
 .agent-detail .ad-name { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--ink); }
 .agent-detail .ad-role { font-size: 12px; color: var(--ink-3); }
-.agent-detail .ad-method { margin-bottom: 12px; }
 .agent-detail .ad-method .am-label { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; }
-.agent-detail .am-steps { display: flex; flex-direction: column; gap: 6px; }
+.agent-detail .am-steps { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
 .agent-detail .am-step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); }
 .agent-detail .am-step .am-num { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ec, var(--navy)); width: 18px; flex-shrink: 0; }
 .agent-detail .ad-field { font-size: 12.5px; color: var(--ink-2); margin-bottom: 6px; }
 .agent-detail .ad-field b { color: var(--navy); }
+.agent-detail .ad-edit-form .am-input { width: 100%; border: 1px solid var(--line); border-radius: 7px; padding: 7px 10px; font-size: 13px; font-family: var(--sans); color: var(--ink); margin-bottom: 6px; outline: none; }
+.agent-detail .ad-edit-form .am-input:focus { border-color: var(--navy); }
+.agent-detail .ad-edit-actions { display: flex; gap: 8px; margin-top: 10px; }
+.agent-detail .ad-edit-actions button { font-size: 13px; border-radius: 7px; padding: 7px 18px; cursor: pointer; }
+.ad-save { background: var(--navy); color: #fff; border: none; }
+.ad-cancel { background: #fff; color: var(--ink-2); border: 1px solid var(--line); }
 
 .output-item { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 10px; background: #fff; }
 .output-item .oi-ico { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0; }
@@ -199,7 +201,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
 .input-bar textarea:focus { border-color: var(--navy); }
 .send-btn { flex-shrink: 0; width: 48px; height: 48px; border-radius: 10px; background: var(--navy); color: #fff; border: none; font-size: 18px; cursor: pointer; }
 
-/* ===== 右栏 ===== */
+/* 右栏 */
 .sidebar-right { width: 332px; flex-shrink: 0; background: var(--sideR-bg); border-left: 1px solid #EAE4D6; display: flex; flex-direction: column; }
 .ref-head { padding: 16px 20px 12px; border-bottom: 1px solid #EAE4D6; display: flex; align-items: center; justify-content: space-between; }
 .ref-head .r-title { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--navy); }
@@ -218,7 +220,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px;
 .rc-tag.paper { background: var(--purple-soft); color: var(--purple); } .rc-tag.paper::before { background: var(--purple); }
 .rc-tag.internal { background: var(--green-soft); color: var(--green); } .rc-tag.internal::before { background: var(--green); }
 .ref-card .rc-org { font-size: 11px; color: var(--ink-3); }
-.ref-card .rc-title { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.5; margin-bottom: 3px; }
+.ref-card .rc-title { font-family: var(--serif); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.55; margin-bottom: 4px; }
 .ref-card .rc-meta { font-size: 11px; color: var(--ink-3); margin-bottom: 5px; }
 .ref-card .rc-excerpt { font-size: 11px; color: var(--ink-2); line-height: 1.6; border-left: 2px solid #E5E0D3; padding-left: 8px; margin-bottom: 6px; }
 .ref-card .rc-foot { display: flex; justify-content: space-between; font-size: 11px; color: var(--blue); }
@@ -270,32 +272,32 @@ var AGENTS = {
   policy: { id:'policy', name:'政策研究员', role:'法规专家', icon:'政', color:'#C0392B',
     method:['检索上位政策文件','识别硬约束与软指导','判断地方裁量空间','给出合规边界建议'],
     question:'哪些是硬约束，哪些是地方裁量空间？',
-    refs:[ { type:'policy', org:'国务院办公厅', title:'关于全面推进城镇老旧小区改造工作的指导意见', sub:'国办发〔2020〕23号', date:'2020.07.20', excerpt:'全面推进城镇老旧小区改造，到"十四五"期末基本完成需改造的老旧小区。' },
-           { type:'policy', org:'住建部等三部门', title:'关于进一步明确城镇老旧小区改造工作要求的通知', sub:'建办城〔2021〕25号', date:'2021.06.30', excerpt:'严禁以老旧小区改造为名违规举债、盲目铺摊子。' } ],
+    refs:[ { type:'policy', org:'国务院办公厅', title:'《关于全面推进城镇老旧小区改造工作的指导意见》', sub:'国办发〔2020〕23号', date:'2020.07.20', excerpt:'全面推进城镇老旧小区改造，到"十四五"期末基本完成需改造的老旧小区。' },
+           { type:'policy', org:'住建部等三部门', title:'《关于进一步明确城镇老旧小区改造工作要求的通知》', sub:'建办城〔2021〕25号', date:'2021.06.30', excerpt:'严禁以老旧小区改造为名违规举债、盲目铺摊子。' } ],
     judge:'相关工作是"必答题"（硬约束），但范围、标准与节奏属地方裁量空间，不必一步到位。' },
   case: { id:'case', name:'案例研究员', role:'对标专家', icon:'案', color:'#7B5EA7',
     method:['检索外地典型案例','提炼成功条件与做法','对比本地条件差异','判断经验可移植性'],
     question:'外地做法哪些能移植，哪些会水土不服？',
-    refs:[ { type:'report', org:'《人民日报》', title:'杭州：加装电梯破解"悬空老人"难题', sub:'一线调研', date:'2024.09.12', excerpt:'全市累计加装电梯 5800 余台，惠及 12 万老年居民。' },
+    refs:[ { type:'report', org:'《人民日报》', title:'杭州：加装电梯破解「悬空老人」难题', sub:'一线调研', date:'2024.09.12', excerpt:'全市累计加装电梯 5800 余台，惠及 12 万老年居民。' },
            { type:'report', org:'《新华社》', title:'上海虹口成片化改造样本', sub:'城市更新观察', date:'2025.03.08', excerpt:'"成片统筹、整体更新"模式显著降低改造成本。' },
-           { type:'paper', org:'中规院', title:'城镇老旧小区改造模式比较研究', sub:'研究报告', date:'2023.05.20', excerpt:'比较了 12 个城市的改造模式，总结出三类典型路径。' } ],
+           { type:'paper', org:'中国城市规划设计研究院', title:'《城镇老旧小区改造模式比较研究》', sub:'研究报告', date:'2023.05.20', excerpt:'比较了 12 个城市的改造模式，总结出三类典型路径。' } ],
     judge:'杭州依赖强财政需谨慎移植，上海成本高；成都"居民自治"可借鉴但需先培育社区治理。' },
   local: { id:'local', name:'本地调研员', role:'数据专家', icon:'本', color:'#2F855A',
     method:['调取本地基础数据','交叉核验数据口径','识别真实约束条件','量化现状与底数'],
     question:'本地的真实约束是什么？',
-    refs:[ { type:'internal', org:'区住建局', title:'老旧小区摸底台账（2026 年版）', sub:'内部资料', date:'2026.03.15', excerpt:'全区 2000 年前建成小区 68 个，涉及居民 3.2 万户。' },
-           { type:'internal', org:'区财政局', title:'2026 年财政预算安排说明', sub:'内部资料', date:'2026.01.20', excerpt:'本年度可用于老旧小区改造的财政资金约 2.7 亿元。' } ],
+    refs:[ { type:'internal', org:'区住建局', title:'《老旧小区摸底台账（2026 年版）》', sub:'内部资料', date:'2026.03.15', excerpt:'全区 2000 年前建成小区 68 个，涉及居民 3.2 万户。' },
+           { type:'internal', org:'区财政局', title:'《2026 年财政预算安排说明》', sub:'内部资料', date:'2026.01.20', excerpt:'本年度可用于老旧小区改造的财政资金约 2.7 亿元。' } ],
     judge:'底数已摸清，真实约束集中在"钱"与"民意"两方面，而非政策允许与否。' },
   finance: { id:'finance', name:'财务研究员', role:'资金专家', icon:'财', color:'#C77B1E',
     method:['测算项目总投资','比对可用资金来源','计算资金缺口','提出融资补缺方案'],
     question:'钱够不够，缺口怎么补？',
-    refs:[ { type:'policy', org:'财政部', title:'政府投资条例（国务院令第 712 号）', sub:'行政法规', date:'2019.05.05', excerpt:'政府投资应当与经济社会发展水平和财政收支状况相适应。' } ],
+    refs:[ { type:'policy', org:'财政部', title:'《政府投资条例》', sub:'国务院令第 712 号', date:'2019.05.05', excerpt:'政府投资应当与经济社会发展水平和财政收支状况相适应。' } ],
     judge:'按目标估算总投资约 4.5 亿，财政可支配 2.7 亿，缺口 1.8 亿，需引入社会资本、专项债等补齐。' },
   risk: { id:'risk', name:'风险分析员', role:'风控专家', icon:'险', color:'#9B2C20',
     method:['识别潜在风险点','评估风险触发条件','预判后果影响范围','分级标注应对措施'],
     question:'什么条件下会出事，后果有多严重？',
-    refs:[ { type:'internal', org:'区审计局', title:'上年度重点工程资金审计报告', sub:'内部资料', date:'2026.02.10', excerpt:'部分项目存在资金拨付滞后、结算超概算等问题。' },
-           { type:'report', org:'《财经》', title:'多地老旧小区改造"半拉子工程"调查', sub:'调查报道', date:'2025.11.03', excerpt:'资金链断裂导致多地改造项目停工、群众投诉激增。' } ],
+    refs:[ { type:'internal', org:'区审计局', title:'《上年度重点工程资金审计报告》', sub:'内部资料', date:'2026.02.10', excerpt:'部分项目存在资金拨付滞后、结算超概算等问题。' },
+           { type:'report', org:'《财经》', title:'多地老旧小区改造「半拉子工程」调查', sub:'调查报道', date:'2025.11.03', excerpt:'资金链断裂导致多地改造项目停工、群众投诉激增。' } ],
     judge:'资金缺口是第一大风险，若不解决将导致项目烂尾、引发舆情发酵。' }
 };
 var CLERK = { id:'clerk', name:'文件助手', role:'公文秘书 · 整合成稿', icon:'稿', color:'#2E5FC0',
@@ -331,7 +333,7 @@ function recognize(text){
   return { type:best.id, confidence: bs>=2?94:(bs===1?86:55) };
 }
 
-var state = { currentTask:'t1', currentType:'special', filter:'all', view:'chat', kbTab:'all' };
+var state = { currentTask:'t1', currentType:'special', filter:'all', view:'chat', kbTab:'all', editingAgent:null };
 var tasks = [
   { id:'t1', title:'老旧小区改造行动计划', type:'special', time:'08-17 22:30', icon:'改', color:'#C0392B', done:true },
   { id:'t2', title:'社区养老服务调研', type:'research', time:'08-15 14:20', icon:'养', color:'#2F855A', done:false },
@@ -388,7 +390,7 @@ function renderMain(){
   else if (state.view === 'outputs'){ title.textContent='我的产出物'; shareBtn.style.display='none'; inputBar.style.display='none'; followup.style.display='none'; renderOutputs(); }
 }
 
-function renderConversation(){
+function renderConversation(keepScroll){
   var el = document.getElementById('mainBody'); el.innerHTML='';
   var t = currentTask();
   if (t.done){
@@ -400,7 +402,7 @@ function renderConversation(){
   } else {
     el.appendChild(emptyHint());
   }
-  el.scrollTop = el.scrollHeight;
+  if (!keepScroll) el.scrollTop = el.scrollHeight;
 }
 function emptyHint(){
   var div=document.createElement('div');
@@ -441,9 +443,13 @@ function stepRecognize(){
 function bindTypeOptions(body){
   body.querySelectorAll('.type-option').forEach(function(op){
     op.onclick = function(){
+      var el = document.getElementById('mainBody');
+      var st = el.scrollTop;
       state.currentType = op.getAttribute('data-type');
       currentTask().type = state.currentType;
-      renderConversation(); renderRefs(); renderFollowup(); renderTaskList();
+      renderConversation(true);
+      el.scrollTop = st;
+      renderRefs(); renderFollowup(); renderTaskList();
     };
   });
 }
@@ -477,9 +483,7 @@ function expertCard(aid, delay){
     '<div class="ec-output">输出：研判意见（已纳入参考稿）</div>';
   return div;
 }
-function doneBanner(text){
-  var div=document.createElement('div'); div.className='done-banner'; div.textContent='✓ '+text; return div;
-}
+function doneBanner(text){ var div=document.createElement('div'); div.className='done-banner'; div.textContent='✓ '+text; return div; }
 function startExperts(){
   var conv = document.getElementById('mainBody');
   var shell = stepShell('2', '专家会诊', '进行中…');
@@ -579,23 +583,50 @@ function renderKnowledge(){
 
 function renderAgents(){
   var body = document.getElementById('mainBody');
-  var html = '<div class="view-wrap"><div class="view-title">智能体</div><div class="view-desc">每位智能体有固定的思考方法，针对具体任务调用对应数据源、输出研判意见</div>';
-  Object.keys(AGENTS).forEach(function(aid){
-    var a = AGENTS[aid];
-    html += agentDetail(a);
-  });
-  html += agentDetail(CLERK);
+  var html = '<div class="view-wrap"><div class="view-title">智能体</div><div class="view-desc">每位智能体有固定的思考方法，点击「编辑」可自定义其思考过程</div>';
+  Object.keys(AGENTS).forEach(function(aid){ html += agentDetail(AGENTS[aid], aid); });
+  html += agentDetail(CLERK, 'clerk');
   html += '</div>';
   body.innerHTML = html;
+  bindAgentEdit(body);
 }
-function agentDetail(a){
+function agentDetail(a, aid){
+  var editing = state.editingAgent === aid;
+  if (editing){
+    var inputs = a.method.map(function(m){ return '<input class="am-input" value="'+m+'">'; }).join('');
+    return '<div class="agent-detail" style="--ec:'+a.color+'" data-agent="'+aid+'">' +
+      '<div class="ad-head"><div class="ad-avatar" style="background:'+a.color+'">'+a.icon+'</div>' +
+      '<div><div class="ad-name">'+a.name+'</div><div class="ad-role">'+a.role+'</div></div></div>' +
+      '<div class="ad-edit-form"><div class="am-label">编辑思考过程（每行一步）</div>'+inputs +
+      '<div class="ad-edit-actions"><button class="ad-save">保存</button><button class="ad-cancel">取消</button></div></div></div>';
+  }
   var stepsHtml = a.method.map(function(m, i){ return '<div class="am-step"><span class="am-num">'+(i+1)+'</span>'+m+'</div>'; }).join('');
-  return '<div class="agent-detail" style="--ec:'+a.color+'">' +
+  return '<div class="agent-detail" style="--ec:'+a.color+'" data-agent="'+aid+'">' +
+    '<button class="ad-edit-btn">编辑</button>' +
     '<div class="ad-head"><div class="ad-avatar" style="background:'+a.color+'">'+a.icon+'</div>' +
     '<div><div class="ad-name">'+a.name+'</div><div class="ad-role">'+a.role+'</div></div></div>' +
     '<div class="ad-method"><div class="am-label">思考过程</div><div class="am-steps">'+stepsHtml+'</div></div>' +
     (a.refs ? '<div class="ad-field"><b>数据源</b>：'+a.refs.map(function(r){return r.org;}).join('、')+'</div>' : '') +
     '<div class="ad-field"><b>输出</b>：'+(a.refs?'研判意见':'参考稿（供人工审定）')+'</div></div>';
+}
+function bindAgentEdit(body){
+  body.querySelectorAll('.ad-edit-btn').forEach(function(btn){
+    btn.onclick = function(){ state.editingAgent = btn.closest('.agent-detail').getAttribute('data-agent'); renderAgents(); };
+  });
+  body.querySelectorAll('.ad-cancel').forEach(function(btn){ btn.onclick = function(){ state.editingAgent = null; renderAgents(); }; });
+  body.querySelectorAll('.ad-save').forEach(function(btn){
+    btn.onclick = function(){
+      var aid = state.editingAgent;
+      var card = btn.closest('.agent-detail');
+      var vals = card.querySelectorAll('.am-input');
+      var method = [];
+      vals.forEach(function(inp){ if (inp.value.trim()) method.push(inp.value.trim()); });
+      var target = aid==='clerk' ? CLERK : AGENTS[aid];
+      if (target) target.method = method;
+      state.editingAgent = null;
+      renderAgents();
+    };
+  });
 }
 
 function renderOutputs(){
